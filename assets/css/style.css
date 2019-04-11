@@ -6,9 +6,15 @@
     background-color: tan;
 }
 
+#forText{
+    background-color: brown;
+}
+
+
 #presto{
     background-image: url("../images/red-checkered-cloth-1154787-638x466.jpg");
-
+    background-color: brown;
+    font-family: 'Kavoon', cursive;
 }
 
 #title{
@@ -24,7 +30,6 @@
     background-size: 100%;
     background-repeat: no-repeat;
     padding-bottom: 50px;
-
 }
 
 #ingreHead{
@@ -51,10 +56,11 @@
 #chefImg{
 height: 100px;
 width: 40px;
-margin-top: 100%;
 }
 
-
+.page-footer{
+    background-color: brown;  
+}
 
 
 
