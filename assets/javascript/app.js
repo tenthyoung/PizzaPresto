@@ -16,7 +16,7 @@ $(document).ready(function () {
 //=================//
 //Adds an event listener to the play button, which brings us to the next screen
 function playButton() {
-    $(document).on('click', '#playButton' function() {
+    $(document).on('click', '#playButton', function() {
         $('#menu').addClass('d-none');
         $('#topicsDifficultyMenu').removeClass('d-none');
     });
@@ -24,7 +24,7 @@ function playButton() {
 
 //adds an event listener to the "next" button after player chooses topic and difficulty
 function initiateGameScreen () {
-    $(document).on('click', '#startGame' function() {
+    $(document).on('click', '#startGame', function() {
         $('#topicsDifficultyMenu').addClass('d-none');
         $('#gameScreen').removeClass('d-none');
     });
@@ -43,7 +43,7 @@ function scoreBoard () {
 
 //Brings the user back to previous gameScreen
 function replay() {
-    $(document).on('click', '#replay' function() {
+    $(document).on('click', '#replay', function() {
         $('#scoreBoardScreen').addClass('d-none');
         $('#gameScreen').removeClass('d-none');
     });
@@ -52,7 +52,7 @@ function replay() {
 
 //Brings the user back to the Topic screen
 function chooseNewTopic() {
-    $(document).on('click', '#replay' function() {
+    $(document).on('click', '#replay', function() {
         $('#scoreBoardScreen').addClass('d-none');
         $('#topicsDiffcultyMenu').removeClass('d-none');
     });
