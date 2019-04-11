@@ -5,7 +5,7 @@
 var jokesAPIResults = "";
 
 $(document).ready(function () {
- 
+  joke();
 });
 //========================================================//
 //Functions
