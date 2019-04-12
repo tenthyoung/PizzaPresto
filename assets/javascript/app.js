@@ -2,14 +2,33 @@
 //========================================================//
 //Global Variables
 //========================================================//
+var username = "";
+var userScore = 0;
+var difficulty = "";
 
 $(document).ready(function () {
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
+        authDomain: "pizza-presto-28c03.firebaseapp.com",
+        databaseURL: "https://pizza-presto-28c03.firebaseio.com",
+        projectId: "pizza-presto-28c03",
+        storageBucket: "pizza-presto-28c03.appspot.com",
+        messagingSenderId: "750779277139"
+    };
+    firebase.initializeApp(config);
 
+    var database = firebase.database();
+
+    database.ref().on("value", function (snapshot) {
+        
+    }, function(errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
 });
 //========================================================//
 //Functions
 //========================================================//
-
 
 //=================//
 //Screen Changes
