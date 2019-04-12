@@ -6,7 +6,12 @@ var username = "";
 var userScore = 0;
 var difficulty = "";
 
+
+//========================================================//
+// Main Run Through
+//========================================================//
 $(document).ready(function () {
+
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
@@ -20,19 +25,17 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    database.ref().on("value", function (snapshot) {
+    // database.ref().on("value", function (snapshot) {
         
-    }, function(errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
+    // }, function(errorObject) {
+    //     console.log("The read failed: " + errorObject.code);
+    // });
 });
-//========================================================//
-//Functions
-//========================================================//
 
-//=================//
-//Screen Changes
-//=================//
+
+//========================================================//
+// Screen Changes
+//========================================================//
 //Adds an event listener to the play button, which brings us to the next screen
 function playButton() {
     $(document).on('click', '#playButton', function() {
@@ -77,9 +80,9 @@ function chooseNewTopic() {
     });
 }
 
-//=================//
-//APIs
-//=================//
+//========================================================//
+// APIs
+//========================================================//
 //One the scoreboard page, the chef will say a random pizza joke
 //on the bottom
 
