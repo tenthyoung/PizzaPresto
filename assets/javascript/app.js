@@ -63,6 +63,23 @@ function chooseNewTopic() {
 //=================//
 //One the scoreboard page, the chef will say a random pizza joke
 //on the bottom
+
+var difficulty = 'medium';
+var category = '9';
+
+function triviaPull() {
+    var queryURL = 'https://opentdb.com/api.php?amount=50&category=' + category + '&difficulty=' + difficulty + '&type=multiple';
+
+    $.ajax({
+        url: queryURL,
+        method: 'GET'
+    }).then(function(response){
+        console.log(response.results[0]);
+    }) 
+}
+
+triviaPull();
+
 function joke() {
     var queryURL = "https://official-joke-api.appspot.com/random_joke";
     
