@@ -1,0 +1,58 @@
+#menu {
+    background: url('../images/menuBackgroundwLogo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 800px;
+    height: 450px;
+    margin: 10% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 1px 1px 5px 0px #000000;
+    border-radius: 5px;
+}
+
+#logoImage {
+    width: 400px;
+    margin: 0 auto;
+}
+
+#playButtonImage {
+    width: 30%;
+    margin: 0 auto;
+}
+
+#menuChef {
+    height: 15rem;
+    width: 15rem;
+    filter: brightness(1.05);
+    position: relative;
+    top: 7rem;
+    z-index: 3;
+}
+
+
+.BUTTON_IJH {
+    background: #F63E3E;
+    background-image: linear-gradient(to bottom, #F63E3E, #D00000);
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-family: Verdana;
+    font-size: 40px;
+    font-weight: 100;
+    box-shadow: 1px 1px 20px 0px #000000;
+    text-shadow: 1px 1px 20px #000000;
+    border: solid #DD380D 1px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 30px;
+    margin: 0 auto 30px auto;
+}
+
+.BUTTON_IJH:hover {
+    background: #D10000;
+    background-image: linear-gradient(to bottom, #D10000, #E84C41);
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.733);
+}

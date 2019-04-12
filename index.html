@@ -7,18 +7,19 @@
     <title>Pizza Presto Baby</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- firebase CDN -->
+    <!-- Firebase CDN -->
     <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css?family=Kavoon" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/animate.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
 </head>
 
-<body id="body">
+<body>
+
 
     <div id="presto" class="jumbotron jumbotron-fluid">
         <div id="forText" class="container">
@@ -28,9 +29,6 @@
 
 
     <div class="container"></div>
-    <div class="col-md-4">
-        
-    </div>
 
     <div class="col-md-4">
         <div class="card" style="width: 18rem;">
@@ -39,11 +37,6 @@
                 <!-- <h6 class="card-subtitle mb-2 text-muted">text</h6> -->
                 <!-- <p class="card-text">text</p> -->
             </div>
-        </div>
-
-        
-        <div class="col-md-4">
-
         </div>
     </div>
 
@@ -86,30 +79,31 @@
         <footer class="page-footer">
             <div class="container">
                 <!-- <div class="row"> -->
-                    <div class="col l6 s12">
-                        <h5>Find Your Ingredients!</h5>
-                        <a class="waves-effect waves-light btn"><img id="onion" src="./assets/images/kisspng-french-onion-soup-yellow-onion-piyaz-brown-onion-5a727ac227e389.4481814315174519701634.png" alt="onion"></a>
-                        <a class="waves-effect waves-light btn">button</a>
-                        <a class="waves-effect waves-light btn">button</a>
-                        <a class="waves-effect waves-light btn">button</a>
-
-                    </div>
+                <div class="col l6 s12">
+                    <h5>Find Your Ingredients!</h5>
+                    <a class="waves-effect waves-light btn">
+                        <img id="onion" src="./assets/images/kisspng-french-onion-soup-yellow-onion-piyaz-brown-onion-5a727ac227e389.4481814315174519701634.png"
+                            alt="onion">
+                    </a>
+                    <a class="waves-effect waves-light btn">button</a>
+                    <a class="waves-effect waves-light btn">button</a>
+                    <a class="waves-effect waves-light btn">button</a>
 
                 </div>
+
             </div>
+    </div>
+    </footer>
 
-        </footer>
+    <iframe allow="autoplay" id="audio" style="display:none"></iframe>
+    <audio id="player" autoplay loop>
+        <source src="./assets/music/Overcooked 2 Soundtrack - Map.mp3" type="audio/mp3">
+    </audio>
 
-        <iframe allow="autoplay" id="audio" style="display:none"></iframe>
 
-        <audio id="player" autoplay loop>
-            <source src="./assets/music/Overcooked 2 Soundtrack - Map.mp3" type="audio/mp3">
-        </audio>
-        
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="./assets/javascript/jquery.js"></script>
-        <script src="./assets/javascript/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./assets/javascript/jquery.js"></script>
+    <script src="./assets/javascript/app.js"></script>
 </body>
 
 </html>
