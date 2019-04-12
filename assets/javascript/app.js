@@ -83,21 +83,69 @@ function chooseNewTopic() {
 //One the scoreboard page, the chef will say a random pizza joke
 //on the bottom
 
-var difficulty = 'medium';
-var category = '9';
+var difficulty;
+var category;
+var categoryValue;
 
-function triviaPull() {
-    var queryURL = 'https://opentdb.com/api.php?amount=50&category=' + category + '&difficulty=' + difficulty + '&type=multiple';
+// game starts when you set the difficulty/category and press play button
+$('#playButton').on('click', function(event) {
+    event.preventDefault();
+    
+    // captures difficulty input from start screen drop-down
+    difficulty = $('#inputDifficulty').val().toLowerCase();
+    console.log(difficulty);
+    // captures category input from start screen drop-down
+    category = $('#inputCategory').val();
+    // conditional that changes category name to number for queryURL
+    if (category === 'General Knowledge') {
+        categoryValue = '9';
+    } else if (category === 'Sports') {
+        categoryValue = '21';
+    } else if (category === 'Geography') {
+        categoryValue = '22'
+    } else if (category === 'Celebrity') {
+        categoryValue = '26'
+    } else if (category === 'Animals') {
+        categoryValue = '27'
+    } else if (category === 'Music') {
+        categoryValue = '12';
+    }
+    console.log(categoryValue);
 
-    $.ajax({
-        url: queryURL,
-        method: 'GET'
-    }).then(function(response){
-        console.log(response.results[0]);
-    }) 
-}
+    function triviaPull() {
+        var queryURL = 'https://opentdb.com/api.php?amount=45&category=' + categoryValue + '&difficulty=' + difficulty + '&type=multiple';
 
-triviaPull();
+        console.log(queryURL);
+
+        $.ajax({
+            url: queryURL,
+            method: 'GET'
+        }).then(function(response){
+
+            console.log(response.results);
+
+            // When an ingredient button is clicked, a trivia question is produced
+            $('.ingredient-button').on('click', function(event) {
+                event.preventDefault();
+        
+                var triviaDisplay = $('#trivia-question');
+                var triviaAnswersDisplay = $('#trivia-answers');
+
+                var triviaQuestion = response.results[0].question;
+                var correctAnswer = response.results[0].question.correct_answer;
+        
+                triviaDisplay.text(triviaQuestion);
+                
+                // populate answers**
+    
+            });
+        }) 
+
+    }
+    
+    triviaPull();
+
+});
 
 function joke() {
     var queryURL = "https://official-joke-api.appspot.com/random_joke";
