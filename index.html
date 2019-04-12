@@ -1,22 +1,104 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Presto Pizza</title>
+    <title>Pizza Presto Baby</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Kavoon" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/animate.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
 </head>
-<body background="./assets/images/pizzaaaaa.jpg">
-    
-    
-    <script src="./assets/javascript/jquery.js"></script>
-    <script src="./assets/javascript/app.js"></script>
 
-    <h1>Pizza Presto Baby</h1>
+<body id="body">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <div id="presto" class="jumbotron jumbotron-fluid">
+        <div id="forText" class="container">
+            <h1 id="title" class="display-4">Pizza. PRESTO!</h1>
+        </div>
+    </div>
+
+
+    <div class="container"></div>
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Scores</h5>
+                <!-- <h6 class="card-subtitle mb-2 text-muted">text</h6> -->
+                <!-- <p class="card-text">text</p> -->
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div id="pizzaHolder" class="col-md-4">
+                    <img id="pizzaImg" src="assets/images/pizzas-1329569-639x630.jpg" alt="pizzaplace">
+                </div>
+
+
+                <div class="col-md-4">
+
+                </div>
+
+
+                <div id="chefHolder" class="col-md-4">
+                    <div class="card">
+
+                        <div id="scrollCard" class="card-body">
+                            <h5 id="ingreHead">Ingredient List</h5>
+                            <ol id="ingreList">
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ol>
+                        </div>
+
+                    </div>
+                    <img id="chefImg" src="assets/images/fun-chef-1319279-639x1011.jpg" alt="chefplace">
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5>Find Your Ingredients!</h5>
+                        <p>image image image image image</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </footer>
+
+        <iframe src="silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+        <audio id="player" autoplay loop>
+            <source src="./assets/music/Overcooked 2 Soundtrack - Map.mp3" type="audio/mp3">
+        </audio>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="./assets/javascript/jquery.js"></script>
+        <script src="./assets/javascript/app.js"></script>
 </body>
+
 </html>
