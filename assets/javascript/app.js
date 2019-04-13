@@ -55,8 +55,21 @@ function initiateGameScreen () {
     $(document).on('click', '#startGameButton', function() {
         $('#settingsMenu').addClass('hide');
         $('#gameScreen').removeClass('hide');
+        $("#username").on("click", function(event) {
+            // prevent page from refreshing when form tries to submit itself
+            event.preventDefault();
+      
+            // Capture user inputs and store them into variables
+            var name = $("#input-text").val().trim();
+            $("#name-display").text(name);
+
+            localStorage.clear();
+
+            localStorage.setItem("name", name);
+        });
     });
 }
+$("#name-display").text(localStorage.getItem("name"));
 
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
