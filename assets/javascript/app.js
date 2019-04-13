@@ -26,10 +26,32 @@ $(document).ready(function () {
     $('.fixed-action-btn').floatingActionButton();
     $('select').formSelect();  //For the select difficulty dropdown
     
-    var name = "";
     //addEventListeners
     playButton();
-    initiateGameScreen();
+    $(document).on('click', '#startGameButton', function(event) {
+        // prevent page from refreshing when form tries to submit itself
+        event.preventDefault();
+        $('#settingsMenu').addClass('hide');
+        $('#gameScreen').removeClass('hide');
+      
+            var name = $("#username").val().trim();
+//Either need to find the user through the array or create a counter 
+            database.ref('/users').push({
+                username: name,
+            });
+            
+            database.ref('/users').on("value", function(snapshot) {
+                // Log everything that's coming out of snapshot
+                console.log(snapshot.val());
+                console.log(snapshot.val().username);
+
+                // Capture user inputs and store them into variables
+                $("#name-display").text(snapshot.val().username);
+
+            }, function (errorObject) {
+                console.log("Errors handled: " + errorObject.code);
+            });
+    });
     
     // Initialize Firebase
     
@@ -55,29 +77,7 @@ function playButton() {
         
 //adds an event listener to the "next" button after player chooses topic and difficulty
 function initiateGameScreen () {
-    $(document).on('click', '#startGameButton', function(event) {
-        // prevent page from refreshing when form tries to submit itself
-        event.preventDefault();
-        $('#settingsMenu').addClass('hide');
-        $('#gameScreen').removeClass('hide');
-      
-            name = $("#name-input").val().trim();
-
-            database.ref().set({
-                name: name,
-            });
-            database.ref().on("value", function(snapshot) {
-                // Log everything that's coming out of snapshot
-                console.log(snapshot.val());
-                console.log(snapshot.val().name);
-
-                // Capture user inputs and store them into variables
-                $("name-display").text(snapshot.val().name);
-
-            }, function (errorObject) {
-                console.log("Errors handled: " + errorObject.code);
-            });
-    });
+    
 }      
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
