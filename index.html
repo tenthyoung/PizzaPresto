@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,127 +8,99 @@
 
     <!-- Firebase CDN -->
     <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
-
+    <!-- Materialize -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Kavoon" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/animate.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
+    <!-- <link rel="icon" type="image/x-icon" href="img/favicon.ico"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" /> -->
+    <!-- Link to CSS Stylesheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style2.css" />
 </head>
-
 <body>
-
-
-    <div id="presto" class="jumbotron jumbotron-fluid">
-        <div id="forText" class="container">
-            <h1 id="title" class="display-4">Pizza. PRESTO!</h1>
+    <nav>
+        <div class="nav-wrapper red darken-1">
+            <a href="#" class="brand-logo center">
+                <img id="pizzaPrestoHeader" src="./assets/images/PizzaPrestoLogo.png" alt="Pizza Presto Header">
+            </a>
         </div>
+    </nav>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+            <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+            <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+            <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+        </ul>
     </div>
 
-
-    <div class="container"></div>
-
-    <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Scores</h5>
-                <!-- <h6 class="card-subtitle mb-2 text-muted">text</h6> -->
-                <!-- <p class="card-text">text</p> -->
+    <div id="menuScreen" class="screen container z-depth-1">
+        <div id="menuTitleRow" class="row">
+            <div id="menuTitleContainer" class="col s6">
+                <img src="./assets/images/PizzaPrestoHeader.png" alt="Pizza Presto Title" id="menuTitle" class="responsive-img">
+            </div>
+        </div>
+        <div  class="row">
+            <div class="col s3">
+                <img id="playButton" src="./assets/images/play.png" alt="play button">
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <div id="pizzaHolder" class="col-md-4">
-                    <img id="pizzaImg" src="assets/images/pizzas-1329569-639x630.jpg" alt="pizzaplace">
-                </div>
-
-
-                <div class="col-md-4">
-
-                </div>
-
-
-                <div id="chefHolder" class="col-md-4">
-                    <div class="card">
-
-                        <div id="scrollCard" class="card-body">
-                            <h5 id="ingreHead">Ingredient List</h5>
-                            <ol id="ingreList">
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ol>
-                        </div>
-
-                    </div>
-                    <img id="chefImg" src="assets/images/fun-chef-1319279-639x1011.jpg" alt="chefplace">
-                </div>
+    <div id="settingsMenu" class="screen z-depth-1 container hide">
+        <div id="formContainer" class="white">
+            <h3>Settings</h3>
+            <div id="usernameInputContainer" class="input-field">
+                    <input id="username" type="text" data-length="10">
+                    <label for="input_text">Username</label>
             </div>
-
-        </div>
-
-        <div class="container">
-
-            <form class="bg-secondary">
-                <div class="form-group">
-                        <label for="inputDifficulty">Difficulty</label>
-                        <select id="inputDifficulty" class="form-control">
-                          <option selected>Easy</option>
-                          <option>Medium</option>
-                          <option>Hard</option>
-                        </select>
-                        <label for="inputCategory">Category</label>
-                        <select id="inputCategory" class="form-control">
-                          <option selected>General Knowledge</option>
-                          <option>Sports</option>
-                          <option>Geography</option>
-                          <option>Celebrity</option>
-                          <option>Animals</option>
-                          <option>Music</option>
-                        </select>
-                        <button id="playButton" type="submit" class="btn btn-primary">Play</button>
-                </div>
-            </form>
-
-            <!-- <div class="card" style="width: 50rem;"> -->
-                <div class="container">
-                    <button id="ing1" class="btn btn-primary ingredient-button">Ingredient 1</button>
-                    <button id="ing2" class="btn btn-primary ingredient-button">Ingredient 2</button>
-                    <button id="ing3" class="btn btn-primary ingredient-button">Ingredient 3</button>
-                    <button id="ing4" class="btn btn-primary ingredient-button">Ingredient 4</button>
-                    <p id="trivia-question">eirgoaeirjgheorivheir</p>
-                    <p id="trivia-answers">answers</p>
-                </div>
-            <!-- </div> -->
-        </div>
-
-
-        <footer class="page-footer">
-            <div class="container">
-                <!-- <div class="row"> -->
-                <div class="col l6 s12">
-                    <h5>Find Your Ingredients!</h5>
-                    <a class="waves-effect waves-light btn">
-                        <img id="onion" src="./assets/images/kisspng-french-onion-soup-yellow-onion-piyaz-brown-onion-5a727ac227e389.4481814315174519701634.png"
-                            alt="onion">
-                    </a>
-                    <a class="waves-effect waves-light btn">button</a>
-                    <a class="waves-effect waves-light btn">button</a>
-                    <a class="waves-effect waves-light btn">button</a>
-
-                </div>
-
+            <div id="difficultyContainer" class="input-field">
+                <select>
+                    <option value="" disabled selected>Difficulty</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
             </div>
+            <button id='startGameButton' class="btn waves-effect waves-light red" type="submit" name="action">Start Game
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
     </div>
-    </footer>
+
+    <div id="gameScreen" class="screen container z-depth-1 hide">
+        <div id="timerScoreRow" class="row">
+            <h5 id="timer" class="col s4">
+                Timer: <span id="time">2:00</span>
+            </h5>
+            <div class="col s6"></div>
+            <h5 id="score" class="col s2">
+                Score: <span id="score">0</span>
+            </h5>
+        </div>
+        <br>
+        <div class="row">
+            <div id="chefConatiner" class="col s3">
+                <img src="./assets/images/happyChefwPizza.png" alt="" id="chef">
+            </div>
+            <div class="col s3 white center" id="dialogueContainer">
+                <p id="dialogue">Helpa me make uhm some pizzas!</p>
+            </div>
+            <div id="pizzaContainer" class="col s6">
+                <img src="./assets/images/blankpizza.png" alt="" id="pizza">
+            </div>
+        </div>
+        <div class="row" id="questionAnswerRow">
+            <div class="col s4" id="question">
+                
+            </div>
+        </div>
+
+    </div>
+
 
     <iframe allow="autoplay" id="audio" style="display:none"></iframe>
     <audio id="player" autoplay loop>
@@ -137,9 +108,9 @@
     </audio>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./assets/javascript/jquery.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"> </script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"> </script>
     <script src="./assets/javascript/app.js"></script>
 </body>
-
 </html>
