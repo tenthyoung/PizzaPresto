@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- <link rel="icon" type="image/x-icon" href="img/favicon.ico"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" /> -->
     <!-- Link to CSS Stylesheet -->
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style2.css" />
 </head>
@@ -123,17 +122,19 @@
                 <img src="./assets/images/blankpizza.png" alt="" id="pizza">
             </div>
         </div>
-        <div class="row" id="questionAnswerRow">
+        <div class="container row" id="questionAnswerRow">
             <div class="col s5" id="timerAndQuestionContainer">
                 <h5>
                     Timer:
                     <span id="time">2:00</span>
                 </h5>
-                <div id="pizzaOrderContainer">
-                    <img src="./assets/images/pepperonipizza.png" alt="Pepperoni pizza" id="pizzaOrder">
+                <div id="pizzaOrderRow" >
+                    <div id="pizzaOrderContainer">
+                        <img src="./assets/images/pepperonipizza.png" alt="Pepperoni pizza" id="pizzaOrder">
+                    </div>
                 </div>
             </div>
-            <div class="col s7 container" id="MultipleChoiceCoontainer">
+            <div class="col s7 container" id="multipleChoiceContainer">
                 <div class="row toprow">
                     <h5 id="question">
                         Who invented the first pizza?
@@ -141,12 +142,12 @@
                 </div>
                 <div class="row bottomrow">
                     <div id="topAnswerRow" class="row">
-                        <div id="answer1" class="col s5 answer center-align z-depth-1 valign-wrapper">Billy</div>
-                        <div id="answer2" class="col s5 answer center-align z-depth-1 valign-wrapper">Bob</div>
+                        <div id="answer1" class="col s5 answer z-depth-1 waves-effect waves-light">Billy</div>
+                        <div id="answer2" class="col s5 answer z-depth-1 waves-effect waves-light ">Bob</div>
                     </div>
                     <div id="bottomAnswerRow" class="row">
-                        <div id="answer3" class="col s5 answer center-align z-depth-1 valign-wrapper">Joe</div>
-                        <div id="answer4" class="col s5 answer center-align z-depth-1 valign-wrapper">Correct Answer</div>
+                        <div id="answer3" class="col s5 answer z-depth-1 waves-effect waves-light ">Joe</div>
+                        <div id="answer4" class="col s5 answer z-depth-1 waves-effect waves-light ">Correct Answer</div>
                     </div>
                 </div>
             </div>
@@ -164,7 +165,6 @@
 
 
     <script src="./assets/javascript/jquery.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"> </script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"> </script>
     <script src="./assets/javascript/app.js"></script>
 </body>

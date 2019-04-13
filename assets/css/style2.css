@@ -106,30 +106,54 @@ select, option {
 #pizza {
     height: 300px;
 }
-
+/*============*/
+/* Bottom Row */
+/*============*/
 #questionAnswerRow {
     background-image: url('../images/halftone-yellow.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 200px;
+    height: 220px;
     border-radius: 20px;
+    margin: 0 auto;
+    width: 100%;
 }
 
-.answer {
-    /* background-image: url('../images/halftone-yellow.png'); */
+#pizzaOrderRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#pizzaOrderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
     background: white;
-    border-radius: 10px;
-    height: 50px;
-    cursor: pointer;
-    display: inline;
-    margin-right: 5px;
+    height: 160px;
+    border-radius: 20px;
 }
 
 #pizzaOrder {
     height: 146px;
     margin: 0 auto;
 }
+
+.answer {
+    /* background-image: url('../images/halftone-yellow.png'); */
+    background: #FFE388;
+    border-radius: 10px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
 
 
 
