@@ -44,3 +44,33 @@ body {
 #menuTitleContainer {
     margin: 0 auto;
 }
+
+/*=======================================*/
+/* Settings Menu                         */
+/*=======================================*/
+#settingsMenu {
+    background-image: url('../images/forest.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+}
+
+#formContainer {
+    padding: 20px 50px;
+    border-radius: 10px;
+    margin: 10% auto;
+    width: 90%;
+}
+
+select, option {
+    border-radius: 10px;
+}
+
+/* How do I center this? */
+#startGameButton {
+    margin: 10px auto;
+}
+

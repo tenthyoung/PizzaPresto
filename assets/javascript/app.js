@@ -11,8 +11,13 @@ var difficulty = "";
 // Main Run Through
 //========================================================//
 $(document).ready(function () {
+    //Materialize Animations
+    $('.fixed-action-btn').floatingActionButton();
+    $('select').formSelect();  //For the select difficulty dropdown
+
     //addEventListeners
     playButton();
+    initiateGameScreen();
 
     // Initialize Firebase
     var config = {
@@ -34,7 +39,6 @@ $(document).ready(function () {
     // });
 });
 
-
 //========================================================//
 // Screen Changes
 //========================================================//
@@ -48,9 +52,9 @@ function playButton() {
 
 //adds an event listener to the "next" button after player chooses topic and difficulty
 function initiateGameScreen () {
-    $(document).on('click', '#startGame', function() {
-        $('#topicsDifficultyMenu').addClass('d-none');
-        $('#gameScreen').removeClass('d-none');
+    $(document).on('click', '#startGameButton', function() {
+        $('#settingsMenu').addClass('hide');
+        $('#gameScreen').removeClass('hide');
     });
 }
 
