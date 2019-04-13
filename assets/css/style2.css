@@ -65,6 +65,7 @@ body {
     width: 90%;
 }
 
+/* i don't think this does anything */
 select, option {
     border-radius: 10px;
 }
@@ -73,4 +74,63 @@ select, option {
 #startGameButton {
     margin: 10px auto;
 }
+
+/*=======================================*/
+/* Game Screen                           */
+/*=======================================*/
+#gameScreen {
+    background-image: url('../images/orangishKitchen.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#chef {
+    height: 300px;
+}
+
+#dialogueContainer {
+    border-radius: 30px;
+    padding: 5%;
+}
+
+#pizza {
+    height: 300px;
+}
+
+#questionAnswerRow {
+    background-image: url('../images/halftone-yellow.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 200px;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

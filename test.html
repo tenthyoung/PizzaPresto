@@ -37,7 +37,7 @@
         </ul>
     </div>
 
-    <div id="menuScreen" class="screen container z-depth-1">
+    <div id="menuScreen" class="screen container z-depth-1 hide">
         <div id="menuTitleRow" class="row">
             <div id="menuTitleContainer" class="col s6">
                 <img src="./assets/images/PizzaPrestoHeader.png" alt="Pizza Presto Title" id="menuTitle" class="responsive-img">
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div id="settingsMenu" class="screen container z-depth-1 hide">
+    <div id="settingsMenu" class="screen z-depth-1 hide">
         <div id="formContainer" class="white">
             <h3>Settings</h3>
             <div id="usernameInputContainer" class="input-field">
@@ -69,6 +69,36 @@
                 <i class="material-icons right">send</i>
             </button>
         </div>
+    </div>
+
+    <div id="gameScreen" class="screen container z-depth-1">
+        <div id="timerScoreRow" class="row">
+            <h5 id="timer" class="col s4">
+                Timer: <span id="time">2:00</span>
+            </h5>
+            <div class="col s6"></div>
+            <h5 id="score" class="col s2">
+                Score: <span id="score">0</span>
+            </h5>
+        </div>
+        <br>
+        <div class="row">
+            <div id="chefConatiner" class="col s3">
+                <img src="./assets/images/happyChefwPizza.png" alt="" id="chef">
+            </div>
+            <div class="col s3 white center" id="dialogueContainer">
+                <p id="dialogue">Helpa me make uhm some pizzas!</p>
+            </div>
+            <div id="pizzaContainer" class="col s6">
+                <img src="./assets/images/blankpizza.png" alt="" id="pizza">
+            </div>
+        </div>
+        <div class="row" id="questionAnswerRow">
+            <div class="col s4" id="question">
+                
+            </div>
+        </div>
+
     </div>
 
 
