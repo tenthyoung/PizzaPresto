@@ -30,7 +30,7 @@ $(document).ready(function () {
     };
     firebase.initializeApp(config);
 
-
+    var database = firebase.database();
 
     // database.ref().on("value", function (snapshot) {
         
@@ -49,33 +49,27 @@ function playButton() {
         $('#settingsMenu').removeClass('hide');
     });
 }
-var database = firebase.database();
-var name = "";
+
 //adds an event listener to the "next" button after player chooses topic and difficulty
 function initiateGameScreen () {
-   
     $(document).on('click', '#startGameButton', function() {
         $('#settingsMenu').addClass('hide');
         $('#gameScreen').removeClass('hide');
         $("#username").on("click", function(event) {
             // prevent page from refreshing when form tries to submit itself
             event.preventDefault();
+      
+            // Capture user inputs and store them into variables
+            var name = $("#input-text").val().trim();
+            $("#name-display").text(name);
 
-            name = $('#username').val().trim();
-      database.ref().set({
-          name: name
-      });
+            localStorage.clear();
+
+            localStorage.setItem("name", name);
         });
     });
 }
-database.ref().on("value", function(snapshot) {
-    console.log(snapshot.val());
-    console.log(snapshot.val().name);
-
-    $('#input_text').text(snapshot.val().name);
-    }, function(errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
+$("#name-display").text(localStorage.getItem("name"));
 
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
