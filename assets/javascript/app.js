@@ -32,6 +32,7 @@ $(document).ready(function () {
         event.preventDefault();
         $('#settingsMenu').addClass('hide');
         $('#gameScreen').removeClass('hide');
+        
       
             var name = $("#username").val().trim();
 //Either need to find the user through the array or create a counter 
