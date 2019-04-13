@@ -11,6 +11,8 @@ var difficulty = "";
 // Main Run Through
 //========================================================//
 $(document).ready(function () {
+    //addEventListeners
+    playButton();
 
     // Initialize Firebase
     var config = {
@@ -39,8 +41,8 @@ $(document).ready(function () {
 //Adds an event listener to the play button, which brings us to the next screen
 function playButton() {
     $(document).on('click', '#playButton', function() {
-        $('#menu').addClass('d-none');
-        $('#topicsDifficultyMenu').removeClass('d-none');
+        $('#menuScreen').addClass('hide');
+        $('#settingsMenu').removeClass('hide');
     });
 }
 
