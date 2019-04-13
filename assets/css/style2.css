@@ -85,6 +85,15 @@ select, option {
     background-position: center;
 }
 
+#usernameAndScoreContainer {
+    background-image: url('../images/halftone-yellow.png');
+    border-radius: 20px;
+    color: black;
+    padding: 20px;
+    margin-top: 0px;
+    max-width: 300px;
+}
+
 #chef {
     height: 300px;
 }
@@ -97,15 +106,59 @@ select, option {
 #pizza {
     height: 300px;
 }
-
+/*============*/
+/* Bottom Row */
+/*============*/
 #questionAnswerRow {
     background-image: url('../images/halftone-yellow.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 200px;
-    border-radius: 
+<<<<<<< HEAD
+    height: 220px;
+    border-radius: 20px;
+    margin: 0 auto;
+    width: 100%;
 }
+
+#pizzaOrderRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#pizzaOrderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: white;
+    height: 160px;
+    border-radius: 20px;
+=======
+    height: 200px;
+    /* border-radius:  */
+>>>>>>> c0fc1060fce587cc15675ce8ac434e76f5ff784c
+}
+
+#pizzaOrder {
+    height: 146px;
+    margin: 0 auto;
+}
+
+.answer {
+    /* background-image: url('../images/halftone-yellow.png'); */
+    background: #FFE388;
+    border-radius: 10px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
 
 
 

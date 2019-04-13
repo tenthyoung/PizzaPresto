@@ -6,7 +6,6 @@ var username = "";
 var userScore = 0;
 var difficulty = "";
 
-
 //========================================================//
 // Main Run Through
 //========================================================//
@@ -66,8 +65,70 @@ $(document).ready(function () {
 });
         
 //========================================================//
+// APIs
+//========================================================//
+//One the scoreboard page, the chef will say a random pizza joke
+//on the bottom
+
+function triviaPull() {
+
+    difficulty = $('#difficulty').val().toLowerCase();
+    var queryURL = 'https://opentdb.com/api.php?amount=50&difficulty=' + difficulty + '&type=multiple';
+    console.log(queryURL);
+
+    $.ajax({
+        url: queryURL,
+        method: 'GET'
+    }).then(function(response){
+        
+        var questionIndex = 0;
+        var questionArray = response.results;
+        var currentQuestion = {};
+        var triviaDisplay = $('#dialogue');
+
+        function renderQuestion() {
+            currentQuestion = questionArray[questionIndex];
+            
+            var triviaQuestion = currentQuestion.question;
+            var correctAnswer = currentQuestion.correct_answer;
+            var incorrectAnswers = currentQuestion.incorrect_answers;
+            
+            triviaDisplay.text(triviaQuestion);
+            triviaDisplay.append(correctAnswer);
+            triviaDisplay.append(incorrectAnswers);
+        }
+
+        renderQuestion();
+        
+        $('#answer-button').on('click', function(){
+            questionIndex++;
+            renderQuestion();
+        });
+
+    });
+
+}
+
+function joke() {
+    var queryURL = "https://official-joke-api.appspot.com/random_joke";
+    
+    $.ajax({
+        url:queryURL,
+        method: 'GET'
+    }).then(function(response) {
+        console.log(response)
+        console.log(response.setup)
+        $('#setup').text(response.setup);  //[ ] I need to animate this
+        $('#punchline').text(response.punchline);
+        
+    });
+    
+}
+
+//========================================================//
 // Screen Changes
 //========================================================//
+
 //Adds an event listener to the play button, which brings us to the next screen
 function playButton() {
     $(document).on('click', '#playButton', function() {
@@ -78,8 +139,14 @@ function playButton() {
         
 //adds an event listener to the "next" button after player chooses topic and difficulty
 function initiateGameScreen () {
+        $(document).on('click', '#startGameButton', function() {
+            $('#settingsMenu').addClass('hide');
+            $('#gameScreen').removeClass('hide');
     
-}      
+            triviaPull();
+        });
+}
+
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
 function scoreBoard () {
@@ -108,76 +175,6 @@ function chooseNewTopic() {
     });
 }
 
-//========================================================//
-// APIs
-//========================================================//
-//One the scoreboard page, the chef will say a random pizza joke
-//on the bottom
-
-var difficulty;
-var category;
-var categoryValue;
-
-// game starts when you set the difficulty/category and press play button
-$('#playButton').on('click', function(event) {
-    event.preventDefault();
-    
-    // captures difficulty input from start screen drop-down
-    difficulty = $('#inputDifficulty').val().toLowerCase();
-    console.log(difficulty);
-    // captures category input from start screen drop-down
-    category = $('#inputCategory').val();
-    // conditional that changes category name to number for queryURL
-    if (category === 'General Knowledge') {
-        categoryValue = '9';
-    } else if (category === 'Sports') {
-        categoryValue = '21';
-    } else if (category === 'Geography') {
-        categoryValue = '22'
-    } else if (category === 'Celebrity') {
-        categoryValue = '26'
-    } else if (category === 'Animals') {
-        categoryValue = '27'
-    } else if (category === 'Music') {
-        categoryValue = '12';
-    }
-    console.log(categoryValue);
-
-    function triviaPull() {
-        var queryURL = 'https://opentdb.com/api.php?amount=45&category=' + categoryValue + '&difficulty=' + difficulty + '&type=multiple';
-
-        console.log(queryURL);
-
-        $.ajax({
-            url: queryURL,
-            method: 'GET'
-        }).then(function(response){
-
-            console.log(response.results);
-
-            // When an ingredient button is clicked, a trivia question is produced
-            $('.ingredient-button').on('click', function(event) {
-                event.preventDefault();
-        
-                var triviaDisplay = $('#trivia-question');
-                var triviaAnswersDisplay = $('#trivia-answers');
-
-                var triviaQuestion = response.results[0].question;
-                var correctAnswer = response.results[0].question.correct_answer;
-        
-                triviaDisplay.text(triviaQuestion);
-                
-                // populate answers**
-    
-            });
-        }) 
-
-    }
-    
-    triviaPull();
-
-});
-
 function joke() {
     var queryURL = "https://official-joke-api.appspot.com/random_joke";
     
@@ -191,5 +188,47 @@ function joke() {
         $('#punchline').text(response.punchline);
         
     });
+}
+
+
+function timeConverter(timeInSeconds) {
+
+  var minutes = Math.floor(timeInSeconds / 60);
+  var seconds = timeInSeconds - (minutes * 60);
+
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+
+  if (minutes === 0) {
+    minutes = "00";
+  }
+  else if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+
+  return minutes + ":" + seconds;
+}
+
+
+
+
+$("#startGameButton").on("click", timer); 
+
+function timer() {
+
+    var time = 120;
+    
+    setInterval(function () {
+        time--;
+
+        if (time <= 0) {
+            clearInterval(time);
+            $('#time').text("Game Over!");
+            return;
+        } else {
+            $('#time').text(timeConverter(time));
+        }
+    }, 1000);
 }
 
