@@ -11,14 +11,6 @@ var difficulty = "";
 // Main Run Through
 //========================================================//
 $(document).ready(function () {
-    //Materialize Animations
-    $('.fixed-action-btn').floatingActionButton();
-    $('select').formSelect();  //For the select difficulty dropdown
-
-    //addEventListeners
-    playButton();
-    initiateGameScreen();
-
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
@@ -29,16 +21,27 @@ $(document).ready(function () {
         messagingSenderId: "750779277139"
     };
     firebase.initializeApp(config);
-
     var database = firebase.database();
-
+    //Materialize Animations
+    $('.fixed-action-btn').floatingActionButton();
+    $('select').formSelect();  //For the select difficulty dropdown
+    
+    var name = "";
+    //addEventListeners
+    playButton();
+    initiateGameScreen();
+    
+    // Initialize Firebase
+    
+    //Initial Values
+    
     // database.ref().on("value", function (snapshot) {
         
-    // }, function(errorObject) {
-    //     console.log("The read failed: " + errorObject.code);
-    // });
+        // }, function(errorObject) {
+            //     console.log("The read failed: " + errorObject.code);
+            // });
 });
-
+        
 //========================================================//
 // Screen Changes
 //========================================================//
@@ -49,28 +52,33 @@ function playButton() {
         $('#settingsMenu').removeClass('hide');
     });
 }
-
+        
 //adds an event listener to the "next" button after player chooses topic and difficulty
 function initiateGameScreen () {
-    $(document).on('click', '#startGameButton', function() {
+    $(document).on('click', '#startGameButton', function(event) {
+        // prevent page from refreshing when form tries to submit itself
+        event.preventDefault();
         $('#settingsMenu').addClass('hide');
         $('#gameScreen').removeClass('hide');
-        $("#username").on("click", function(event) {
-            // prevent page from refreshing when form tries to submit itself
-            event.preventDefault();
       
-            // Capture user inputs and store them into variables
-            var name = $("#input-text").val().trim();
-            $("#name-display").text(name);
+            name = $("#name-input").val().trim();
 
-            localStorage.clear();
+            database.ref().set({
+                name: name,
+            });
+            database.ref().on("value", function(snapshot) {
+                // Log everything that's coming out of snapshot
+                console.log(snapshot.val());
+                console.log(snapshot.val().name);
 
-            localStorage.setItem("name", name);
-        });
+                // Capture user inputs and store them into variables
+                $("name-display").text(snapshot.val().name);
+
+            }, function (errorObject) {
+                console.log("Errors handled: " + errorObject.code);
+            });
     });
-}
-$("#name-display").text(localStorage.getItem("name"));
-
+}      
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
 function scoreBoard () {
@@ -81,7 +89,7 @@ function scoreBoard () {
     replay();
     chooseNewTopic();
 }
-
+// scoreBoard();
 //Brings the user back to previous gameScreen
 function replay() {
     $(document).on('click', '#replay', function() {
@@ -182,5 +190,5 @@ function joke() {
         $('#punchline').text(response.punchline);
         
     });
-    
 }
+
