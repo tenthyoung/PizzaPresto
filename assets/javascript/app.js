@@ -171,3 +171,44 @@ function joke() {
     });
     
 }
+
+function timeConverter(timeInSeconds) {
+
+  var minutes = Math.floor(timeInSeconds / 60);
+  var seconds = timeInSeconds - (minutes * 60);
+
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+
+  if (minutes === 0) {
+    minutes = "00";
+  }
+  else if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+
+  return minutes + ":" + seconds;
+}
+
+
+
+
+$("#startGameButton").on("click", timer); 
+
+function timer() {
+
+    var time = 120;
+    
+    setInterval(function () {
+        time--;
+
+        if (time <= 0) {
+            clearInterval(time);
+            $('#time').text("Game Over!");
+            return;
+        } else {
+            $('#time').text(timeConverter(time));
+        }
+    }, 1000);
+}
