@@ -1,7 +1,11 @@
 body {
     font-family: 'Ubuntu';
     background: url('../images/prism.png');
+
 }
+
+
+      
 
 /*====================================================================*/
 /* Navbar                                                             */
@@ -258,6 +262,30 @@ select, option {
         height: 180px;
     }
 
+    /*============*/
+    /* Q&A Row    */
+    /*============*/
+    #pizzaOrder {
+        height: 100px;
+    }
+
+    #timerContainer, #question {
+        font-size: 1.4rem;
+        text-align: center;
+        margin-left: 0;
+    }
+
+    #pizzaOrderRow {
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #questionAnswerRow {
+        height: 370px;
+    }
 
 }    
 

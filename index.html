@@ -26,14 +26,16 @@
     <!--=====================================================================-->
     <!-- Navbar                                                              -->
     <!--=====================================================================-->
-    <nav>
-        <div class="nav-wrapper red darken-1">
-            <a href="#" class="brand-logo center">
-                <img id="pizzaPrestoHeader" src="./assets/images/PizzaPrestoLogo.png" alt="Pizza Presto Header">
-            </a>
-        </div>
-    </nav>
-    
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper red darken-1">
+                <a href="#" class="brand-logo center">
+                    <img id="pizzaPrestoHeader" src="./assets/images/PizzaPrestoLogo.png" alt="Pizza Presto Header">
+                </a>
+            </div>
+        </nav>
+    </div>
+
     <!--=====================================================================-->
     <!-- Menu Screen                                                         -->
     <!--=====================================================================-->
@@ -83,20 +85,21 @@
         <!--=====================-->
         <div id="usernameAndScores" class="row">
             <h5 id="usernameAndScoreContainer" class="col s4 m3 l3">
-                Name: <span id="username">Mario</span>
-                <br>
-                Score:
+                Name:
+                <span id="username">Mario</span>
+                <br> Score:
                 <span id="score">0</span>
             </h5>
             <div id="blank" class="col s4 m6 l6"></div>
             <h5 id="highScoreContainer" class="col s4 m3 l3 right-align">
-                    High Score: <span id="highScore">3342</span>
+                High Score:
+                <span id="highScore">3342</span>
             </h5>
         </div>
 
         <!--=====================-->
         <!-- Chef and Pizza      -->
-        <!--=====================-->        
+        <!--=====================-->
         <div id="chefnPizzaContainer" class="row">
             <div id="chefContainer" class="col s3">
                 <img src="./assets/images/happyChefwPizza.png" alt="" id="chef">
@@ -110,72 +113,72 @@
         </div>
 
         <!--=====================-->
-        <!-- User Controls       -->
+        <!-- Q&A Row             -->
         <!--=====================-->
         <div class="container row" id="questionAnswerRow">
-            <div class="col s5" id="timerAndQuestionContainer">
+            <div class="col s5" id="timerAndPizzaOrderContainer">
                 <h5 id="timerContainer">
-                     Timer:
+                    Timer:
                     <span id="time">2:00</span>
                 </h5>
-                <div id="pizzaOrderRow" >
+                <div id="pizzaOrderRow">
                     <div id="pizzaOrderContainer">
                         <img src="./assets/images/pizzas/pepperonipizza.png" alt="Pepperoni pizza" id="pizzaOrder">
                     </div>
                 </div>
             </div>
             <div class="col s7 container" id="multipleChoiceContainer">
-                <div  id="questionRow" class="row">
+                <div id="questionRow" class="row">
                     <h5 id="question">
                         Who invented the first pizza?
                     </h5>
                 </div>
                 <div class="row bottomrow">
                     <div id="topAnswerRow" class="row">
-                        <div id="answer1" class="col s5 answer z-depth-1 waves-effect waves-light waves-orange">Billy</div>
-                        <div id="answer2" class="col s5 answer z-depth-1 waves-effect waves-light waves-orange">Bob</div>
+                        <div id="answer1" class="col s11 m5 answer z-depth-1 waves-effect waves-light waves-orange">Billy</div>
+                        <div id="answer2" class="col s11 m5 answer z-depth-1 waves-effect waves-light waves-orange">Bob</div>
                     </div>
                     <div id="bottomAnswerRow" class="row">
-                        <div id="answer3" class="col s5 answer z-depth-1 waves-effect waves-light waves-orange">Joe</div>
-                        <div id="answer4" class="col s5 answer z-depth-1 waves-effect waves-light waves-orange">Correct Answer</div>
+                        <div id="answer3" class="col s11 m5 answer z-depth-1 waves-effect waves-light waves-orange">Joe</div>
+                        <div id="answer4" class="col s11 m5 answer z-depth-1 waves-effect waves-light waves-orange">Correct Answer</div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
 
     <!--=====================================================================-->
     <!-- Fixed Action Button                                                 -->
     <!--=====================================================================-->
     <div class="fixed-action-btn">
-            <a class="btn-floating btn-large red">
-                <i class="large material-icons">mode_edit</i>
-            </a>
-            <ul>
-                <li>
-                    <a class="btn-floating red">
-                        <i class="material-icons">insert_chart</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating yellow darken-1">
-                        <i class="material-icons">format_quote</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating green">
-                        <i class="material-icons">publish</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating blue">
-                        <i class="material-icons">attach_file</i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">menu</i>
+        </a>
+        <ul>
+            <li>
+                <a class="btn-floating red">
+                    <i class="material-icons">insert_chart</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating yellow darken-1">
+                    <i class="material-icons">format_quote</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating green">
+                    <i class="material-icons">publish</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating blue">
+                    <i class="material-icons">attach_file</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
 
     <!--=====================================================================-->
     <!-- Audio                                                               -->
