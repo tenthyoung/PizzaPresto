@@ -114,7 +114,6 @@ select, option {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-<<<<<<< HEAD
     height: 220px;
     border-radius: 20px;
     margin: 0 auto;
@@ -136,10 +135,7 @@ select, option {
     background: white;
     height: 160px;
     border-radius: 20px;
-=======
-    height: 200px;
-    /* border-radius:  */
->>>>>>> c0fc1060fce587cc15675ce8ac434e76f5ff784c
+
 }
 
 #pizzaOrder {
