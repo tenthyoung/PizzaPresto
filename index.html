@@ -39,7 +39,7 @@
     <!--=====================================================================-->
     <!-- Menu Screen                                                         -->
     <!--=====================================================================-->
-    <div id="menuScreen" class="screen container z-depth-1 hide">
+    <div id="menuScreen" class="screen container z-depth-1">
         <div id="menuTitleRow" class="row">
             <div id="menuTitleContainer" class="col s6">
                 <img src="./assets/images/PizzaPrestoHeader.png" alt="Pizza Presto Title" id="menuTitle" class="responsive-img">
@@ -79,7 +79,7 @@
     <!--=====================================================================-->
     <!-- Game Screen                                                         -->
     <!--=====================================================================-->
-    <div id="gameScreen" class="screen container z-depth-1 ">
+    <div id="gameScreen" class="screen container z-depth-1 hide">
         <!--=====================-->
         <!-- Username And Scores -->
         <!--=====================-->
@@ -146,6 +146,77 @@
             </div>
         </div>
     </div>
+    <!--=====================================================================-->
+    <!-- Scoreboard                                                          -->
+    <!--=====================================================================-->
+    <div id="scoreboardScreen" class="screen container z-depth-1 hide">
+        <div id="scoreboardContainer" class="white">
+            <h3>Scoreboard</h3>
+            <table class="highlight striped">
+                <thead>
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Name</th>
+                        <th>Difficulty</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="scoreRow1" class="scoreRow">
+                        <td id="rank1">#1</td>
+                        <td id="name1">Billy</td>
+                        <td id="difficulty1">Hard</td>
+                        <td id="score1">9310</td>
+                    </tr>
+                    <tr id="scoreRow2" class="scoreRow">
+                        <td id="rank2">#2</td>
+                        <td id="name2">Bob</td>
+                        <td id="difficulty2">Medium</td>
+                        <td id="score2">8712</td>
+                        
+                    </tr>
+                    <tr id="scoreRow3" class="scoreRow">
+                        <td id="rank3">#3</td>
+                        <td id="name3">Joe</td>
+                        <td id="difficulty3">Medium</td>
+                        <td id="score3">7623</td>
+                        
+                    </tr>
+                    <tr id="scoreRow4" class="scoreRow">
+                        <td id="rank4">#4</td>
+                        <td id="name4">Maggie</td>
+                        <td id="difficulty4">Easy</td>
+                        <td id="score4">6532</td>
+                    </tr>
+                    <tr id="scoreRow5" class="scoreRow">
+                        <td id="rank5">#5</td>
+                        <td id="name5">Xavier</td>
+                        <td id="difficulty5">Easy</td>
+                        <td id="score5">5673</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id='replayButton' class="scoreboardBtn btn waves-effect waves-light red">Replay
+                <i class="material-icons left">loop</i>
+            </button>
+            <button id='difficultyScreenChangeButton' class="scoreboardBtn btn waves-effect waves-light red">Difficulty
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+
+    </div>
+
+
+    <!--=====================================================================-->
+    <!-- Footer                                                              -->
+    <!--=====================================================================-->
+    <!-- <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2014 Copyright Text
+            </div>
+        </div>
+    </footer> -->
 
 
     <!--=====================================================================-->

@@ -1,11 +1,11 @@
 body {
     font-family: 'Ubuntu';
     background: url('../images/prism.png');
-
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
-
-
-      
 
 /*====================================================================*/
 /* Navbar                                                             */
@@ -14,6 +14,13 @@ body {
 #pizzaPrestoHeader {
     height: 15vh;
 }
+
+/*====================================================================*/
+/* Footer                                                             */
+/*====================================================================*/
+/* footer {
+    margin-bottom: 0px;
+} */
 
 /*====================================================================*/
 /* Menu Screen                                                        */
@@ -193,6 +200,31 @@ select, option {
     margin: 0 auto;
 }
 
+/*====================================================================*/
+/* Scoreboard                                                         */
+/*====================================================================*/
+#scoreboardScreen {
+    background-image: url('../images/forest.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    min-height: 600px;
+}
+
+#scoreboardContainer {
+    padding: 20px 50px;
+    border-radius: 10px;
+    margin: 10% 5%;
+    width: 500px;
+    min-height: 500px;
+}
+
+.scoreboardBtn {
+    margin: 30px 5px;
+    border-radius: 20px;
+}
 
 /*====================================================================*/
 /* Media Queries                                                      */
@@ -202,10 +234,6 @@ select, option {
 /* 992px and Below                       */
 /*=======================================*/
 @media only screen and (max-width: 992px) {
-    /* delete this when done */
-    #username {
-        color: red;
-    }
 
     /*=========================*/
     /* Game Screen             */
@@ -230,18 +258,36 @@ select, option {
 /* 600px and Below                       */
 /*=======================================*/
 @media only screen and (max-width: 600px) {
-    
-    /* delete this when done */
-    #username {
-        color: aqua;
+    .screen {
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    /*=========================*/
+    /* Menu Screen             */
+    /*=========================*/
+    #menuScreen {
+        height:700px;
+    }
+
+    /*=========================*/
+    /* Settings             */
+    /*=========================*/
+    #settingsMenu {
+        height:700px;
+        display: flex;
+        align-items: center;
+    }
+
+    #formContainer {
+        height: 400px;
     }    
+
     /*=========================*/
     /* Game Screen             */
     /*=========================*/
     #gameScreen {
         background-position: 0px -80px;
-        margin: 0 auto;
-        width: 100%;
         border-radius: 0px;
     }
 
