@@ -32,6 +32,7 @@ $(document).ready(function () {
         event.preventDefault();
         $('#settingsMenu').addClass('hide');
         $('#gameScreen').removeClass('hide');
+        
       
             var name = $("#username").val().trim();
 //Either need to find the user through the array or create a counter 
@@ -83,18 +84,26 @@ function triviaPull() {
         var questionIndex = 0;
         var questionArray = response.results;
         var currentQuestion = {};
-        var triviaDisplay = $('#dialogue');
+        var questionDisplay = $('#question');
+        var answerDisplay1 = $('#answer1')
+        var answerDisplay2 = $('#answer2')
+        var answerDisplay3 = $('#answer3')
+        var answerDisplay4 = $('#answer4')
 
         function renderQuestion() {
             currentQuestion = questionArray[questionIndex];
             
             var triviaQuestion = currentQuestion.question;
             var correctAnswer = currentQuestion.correct_answer;
-            var incorrectAnswers = currentQuestion.incorrect_answers;
+            var incorrectAnswer1 = currentQuestion.incorrect_answers[0];
+            var incorrectAnswer2 = currentQuestion.incorrect_answers[1];
+            var incorrectAnswer3 = currentQuestion.incorrect_answers[2];
             
-            triviaDisplay.text(triviaQuestion);
-            triviaDisplay.append(correctAnswer);
-            triviaDisplay.append(incorrectAnswers);
+            questionDisplay.text(triviaQuestion);
+            answerDisplay1.text(correctAnswer);
+            answerDisplay2.text(incorrectAnswer1);
+            answerDisplay3.text(incorrectAnswer2);
+            answerDisplay4.text(incorrectAnswer3);
         }
 
         renderQuestion();
@@ -134,16 +143,6 @@ function playButton() {
         $('#menuScreen').addClass('hide');
         $('#settingsMenu').removeClass('hide');
     });
-}
-        
-//adds an event listener to the "next" button after player chooses topic and difficulty
-function initiateGameScreen () {
-        $(document).on('click', '#startGameButton', function() {
-            $('#settingsMenu').addClass('hide');
-            $('#gameScreen').removeClass('hide');
-    
-            triviaPull();
-        });
 }
 
 //Shows the scoreBoard, gives the user the option to replay the game, 
@@ -209,9 +208,6 @@ function timeConverter(timeInSeconds) {
   return minutes + ":" + seconds;
 }
 
-
-
-
 $("#startGameButton").on("click", timer); 
 
 function timer() {
@@ -229,5 +225,7 @@ function timer() {
             $('#time').text(timeConverter(time));
         }
     }, 1000);
+
+    triviaPull();
 }
 
