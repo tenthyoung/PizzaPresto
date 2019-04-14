@@ -258,6 +258,10 @@ select, option {
 /* 600px and Below                       */
 /*=======================================*/
 @media only screen and (max-width: 600px) {
+    body {
+        background: #e53935;
+    }
+
     .screen {
         margin: 0 auto;
         width: 100%;
