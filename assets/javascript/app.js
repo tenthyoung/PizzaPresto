@@ -10,7 +10,9 @@ var difficulty = "";
 // Main Run Through
 //========================================================//
 $(document).ready(function () {
+    //============================//
     // Initialize Firebase
+    //============================//
     var config = {
         apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
         authDomain: "pizza-presto-28c03.firebaseapp.com",
@@ -20,48 +22,19 @@ $(document).ready(function () {
         messagingSenderId: "750779277139"
     };
     firebase.initializeApp(config);
+
     var database = firebase.database();
+
+    //============================//
     //Materialize Animations
+    //============================//
     $('.fixed-action-btn').floatingActionButton();
     $('select').formSelect();  //For the select difficulty dropdown
     
     //addEventListeners
-    playButton();
-    $(document).on('click', '#startGameButton', function(event) {
-        // prevent page from refreshing when form tries to submit itself
-        event.preventDefault();
-        $('#settingsMenu').addClass('hide');
-        $('#gameScreen').removeClass('hide');
-        
-      
-            var name = $("#username").val().trim();
-//Either need to find the user through the array or create a counter 
-            database.ref('/users').push({
-                username: name,
-            });
-            
-            database.ref('/users').on("value", function(snapshot) {
-                // Log everything that's coming out of snapshot
-                console.log(snapshot.val());
-                console.log(snapshot.val().username);
-
-                // Capture user inputs and store them into variables
-                $("#name-display").text(snapshot.val().username);
-
-            }, function (errorObject) {
-                console.log("Errors handled: " + errorObject.code);
-            });
-    });
-    
-    // Initialize Firebase
-    
-    //Initial Values
-    
-    // database.ref().on("value", function (snapshot) {
-        
-        // }, function(errorObject) {
-            //     console.log("The read failed: " + errorObject.code);
-            // });
+    playButtonClicked();
+    startGameButtonClicked();
+    addScoreboardButtonListeners();
 });
         
 //========================================================//
@@ -138,32 +111,60 @@ function joke() {
 //========================================================//
 
 //Adds an event listener to the play button, which brings us to the next screen
-function playButton() {
+function playButtonClicked() {
     $(document).on('click', '#playButton', function() {
         $('#menuScreen').addClass('hide');
         $('#settingsMenu').removeClass('hide');
     });
 }
 
+function startGameButtonClicked () {        
+    $(document).on('click', '#startGameButton', function(event) {
+        // prevent page from refreshing when form tries to submit itself
+        event.preventDefault();
+        $('#settingsMenu').addClass('hide');
+        $('#gameScreen').removeClass('hide');
+        
+        
+        var name = $("#username").val().trim();
+        //Either need to find the user through the array or create a counter 
+        database.ref('/users').push({
+            username: name,
+        });
+        
+        database.ref('/users').on("value", function(snapshot) {
+            // Log everything that's coming out of snapshot
+            console.log(snapshot.val());
+            console.log(snapshot.val().username);
+            
+            // Capture user inputs and store them into variables
+            $("#name-display").text(snapshot.val().username);
+            
+        }, function (errorObject) {
+            console.log("Errors handled: " + errorObject.code);
+        });
+    });
+}
+
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
-function scoreBoard () {
-    $('#gameScreen').addClass('d-none');
-    $('#scoreBoardScreen').removeClass('d-none');
+function addScoreboardButtonListeners () {
+    replayWithSameDifficulty();
+    
 
     joke();
     replay();
     chooseNewTopic();
 }
-// scoreBoard();
-//Brings the user back to previous gameScreen
-function replay() {
-    $(document).on('click', '#replay', function() {
-        $('#scoreBoardScreen').addClass('d-none');
-        $('#gameScreen').removeClass('d-none');
-    });
 
+function replayWithSameDifficulty() {
+    $(document).on('click', '#replay', function() {
+        $('#scoreBoardScreen').addClass('hide');
+        $('#gameScreen').removeClass('hide');
+    });
 }
+
+
 
 //Brings the user back to the Topic screen
 function chooseNewTopic() {

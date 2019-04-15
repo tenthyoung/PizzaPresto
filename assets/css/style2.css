@@ -115,11 +115,6 @@ select, option {
     text-align: center;
 } 
 
-/* #highScoreSpan {
-    background: url('../images/halftone-yellow.png');
-    border-radius: 10px;
-    margin: 0;
-} */
 
 /*============*/
 /* ChefnPizza */
@@ -132,6 +127,11 @@ select, option {
 #dialogueContainer {
     border-radius: 30px;
     padding: 5%;
+}
+
+#pizzaContainer {
+    display: flex;
+    justify-content: center;
 }
 
 #pizza {
@@ -213,12 +213,39 @@ select, option {
     min-height: 600px;
 }
 
+#chefnDialogueScoreboard, #scoreboardContainer {
+    margin: 10% 0;
+    min-height: 500px;
+
+}
+
+#chefnDialogueScoreboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#scoreboardChefContainer {
+    width: 300px;
+}
+
+#scoreboardChef {
+    height: 300px;
+    position: relative;
+    z-index: 2;
+}
+
+#scoreboardDialogue {
+    background-color: white;
+    padding: 5%;
+    border-radius: 20px;
+    text-align: center;
+}
+
 #scoreboardContainer {
     padding: 20px 50px;
     border-radius: 10px;
-    margin: 10% 5%;
-    width: 500px;
-    min-height: 500px;
+    /* width: 500px; */
 }
 
 .scoreboardBtn {
@@ -229,12 +256,10 @@ select, option {
 /*====================================================================*/
 /* Media Queries                                                      */
 /*====================================================================*/
-
 /*=======================================*/
 /* 992px and Below                       */
 /*=======================================*/
 @media only screen and (max-width: 992px) {
-
     /*=========================*/
     /* Game Screen             */
     /*=========================*/
