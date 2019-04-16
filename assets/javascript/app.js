@@ -75,7 +75,6 @@ function triviaPull() {
 
     difficulty = $('#difficulty').val().toLowerCase();
     var queryURL = 'https://opentdb.com/api.php?amount=50&difficulty=' + difficulty + '&type=multiple';
-    console.log(queryURL);
 
     $.ajax({
         url: queryURL,
