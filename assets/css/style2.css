@@ -198,6 +198,12 @@ select, option {
     margin-bottom: 0;
 }
 
+#question {
+    text-align: justify;
+    padding-right: 15px;
+    font-size: 1.25rem;
+}
+
 #topAnswerRow, #bottomAnswerRow {
     margin: 0 auto;
 }
@@ -347,10 +353,13 @@ select, option {
         height: 100px;
     }
 
-    #timerContainer, #question {
-        font-size: 1.4rem;
+    #timerContainer {
         text-align: center;
         margin-left: 0;
+    }
+
+    #question {
+        font-size: 1.1rem;
     }
 
     #pizzaOrderRow {
