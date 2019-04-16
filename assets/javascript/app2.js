@@ -7,6 +7,16 @@ var difficulty = "";
 var time = 120;
 
 //====================================================//
+// Pizza Variables
+//====================================================//
+var currentPizzaOrder;
+var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
+
+//====================================================//
+// Chef Variables
+//====================================================//
+var chefDisapprovalAnimationID = "";
+//====================================================//
 // Trivia Variables
 //====================================================//
 var arrayOfTriviaObjects = [];
@@ -35,6 +45,7 @@ $(document).ready(function () {
     addMenuScreenPlayButtonListener();
     addSettingsSubmitButtonListener();
     addAnswerButtonListeners();
+    chefDisapproval();
 });
 //========================================================================================================//
 // Start Game
@@ -43,6 +54,8 @@ function startGame() {
     $('#username-display').text(username);
     timer();
     triviaPull();
+    generateRandomPizzaOrder();
+    displayPizzaOrder();
 }
 //========================================================================================================//
 // Trivia API
@@ -123,6 +136,46 @@ function cleanUp(string) {
     return string.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"');
 }
 
+//========================================================================================================//
+// Pizza Functions
+//========================================================================================================//
+//====================================================//
+// Choose a random pizza
+//====================================================//
+function generateRandomPizzaOrder() {
+    currentPizzaOrder = possiblePizzas[Math.floor(Math.random() * 5)];
+}
+
+//====================================================//
+// Display the Pizza Order
+//====================================================//
+function displayPizzaOrder() {
+    let index = possiblePizzas.indexOf(currentPizzaOrder);
+    if (index === 0) {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder1.png')
+    } else if (index === 1){
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder2.png')
+    } else if (index === 2){
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder3.png')
+    } else if (index === 3){
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder4.png')
+    } else {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder5.png')
+    }
+
+}
+
+//========================================================================================================//
+// Chef Animations
+//========================================================================================================//
+function chefDisapproval() {
+    chefDisapprovalAnimationID = setInterval(function() {
+        $('#chef').attr('src', './assets/images/chefwrong1.png')
+        setTimeout(function() {
+            $('#chef').attr('src', './assets/images/chefwrong2.png')
+        },1000);
+    },3000);
+}
 
 //========================================================================================================//
 // Timer Functions
@@ -191,8 +244,9 @@ function addAnswerButtonListeners() {
             } else {
                 userScore += 300;
             }
+        } else {
+            chefDisapproval();
         }
-        console.log('hi');
         $('#score').text(userScore);
         nextQuestion();
     });
