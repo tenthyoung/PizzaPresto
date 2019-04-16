@@ -25,6 +25,34 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
+    function startGameButtonClicked () {        
+        $(document).on('click', '#startGameButton', function(event) {
+            // prevent page from refreshing when form tries to submit itself
+            event.preventDefault();
+            $('#settingsMenu').addClass('hide');
+            $('#gameScreen').removeClass('hide');
+            
+            
+            var name = $("#username").val().trim();
+            //Either need to find the user through the array or create a counter 
+            database.ref('/users').push({
+                username: name,
+            });
+            
+            database.ref('/users').on("value", function(snapshot) {
+                // Log everything that's coming out of snapshot
+                console.log(snapshot.val());
+                console.log(snapshot.val().username);
+                
+                // Capture user inputs and store them into variables
+                $("#name-display").text(snapshot.val().username);
+                
+            }, function (errorObject) {
+                console.log("Errors handled: " + errorObject.code);
+            });
+        });
+    }
+
     //============================//
     //Materialize Animations
     //============================//
@@ -56,34 +84,113 @@ function triviaPull() {
         
         var questionIndex = 0;
         var questionArray = response.results;
+        var answerArray = []
         var currentQuestion = {};
         var questionDisplay = $('#question');
-        var answerDisplay1 = $('#answer1')
-        var answerDisplay2 = $('#answer2')
-        var answerDisplay3 = $('#answer3')
-        var answerDisplay4 = $('#answer4')
+        var answerDisplay1 = $('#answer1');
+        var answerDisplay2 = $('#answer2');
+        var answerDisplay3 = $('#answer3');
+        var answerDisplay4 = $('#answer4');
+        var correctAnswer;
 
         function renderQuestion() {
+            
+            // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
+            function replaceWeirdSymbols(question) {
+                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&rdquo;/g,'"');
+            } 
+            
+            // Grabs the first question out the API data and stores it in current question variable
             currentQuestion = questionArray[questionIndex];
+
+            // Variable storing the trivia question
+            var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
+
+            // Variables storing the correct answer and three incorrect answers
+            correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
+            var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
+            var incorrectAnswer2 = replaceWeirdSymbols(currentQuestion.incorrect_answers[1]);
+            var incorrectAnswer3 = replaceWeirdSymbols(currentQuestion.incorrect_answers[2]);
             
-            var triviaQuestion = currentQuestion.question;
-            var correctAnswer = currentQuestion.correct_answer;
-            var incorrectAnswer1 = currentQuestion.incorrect_answers[0];
-            var incorrectAnswer2 = currentQuestion.incorrect_answers[1];
-            var incorrectAnswer3 = currentQuestion.incorrect_answers[2];
+            // Array with multiple choice answers
+            answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
             
+            // This array is used to mix up the answers so they 
+            // don't appear on the same buttons every time.
+            // We repeat -1 so that we can easily recognize
+            // when a random number has already been used.
+            randomNumberArray = [-1, -1, -1, -1];
+
+            // This function is used to check if the random number
+            // has already been put in the array by looping through 
+            // the random number array and if the number isn't already 
+            // in the array, it returns false and continues looping, 
+            // but if it already exists in the array, it returns true
+            function randomNumberIsInArray(randomNumber) {
+                var isInArray = false;
+                for (let index = 0; index < 4; index++) {
+                    if (randomNumberArray[index] === randomNumber) {
+                        isInArray = true;
+                    }
+                } 
+                return isInArray;
+            }
+            
+            // This function says that when we create a new random number,
+            // if the random number is not already in the array, it is 
+            // valid so add it to the array and continue the loop. However,
+            // if the random number is already in the array, stop the loop
+            // and generate another random number
+            function getValidRandomNumber() {
+                var randomNumber;
+                invalidNumber = true;
+                while (invalidNumber) {
+                    randomNumber = Math.floor(Math.random() * 4);
+                    if (!randomNumberIsInArray(randomNumber)) {
+                        invalidNumber = false;
+                    }
+                } 
+                return randomNumber;
+            }
+
+            // This funcation takes a valid random number that hasn't 
+            // already been used and adds it to the random number array
+            function randomizeIndexNumber() {
+                for (let index = 0; index < 4; index++) {
+                    randomNumberArray[index] = getValidRandomNumber();
+                }
+            }
+
+            // Call the function above to create random number array
+            randomizeIndexNumber();
+            
+            // Display the random answers by plugging each random number into the answer array
             questionDisplay.text(triviaQuestion);
-            answerDisplay1.text(correctAnswer);
-            answerDisplay2.text(incorrectAnswer1);
-            answerDisplay3.text(incorrectAnswer2);
-            answerDisplay4.text(incorrectAnswer3);
+            answerDisplay1.text(answerArray[randomNumberArray[0]]);
+            answerDisplay2.text(answerArray[randomNumberArray[1]]);
+            answerDisplay3.text(answerArray[randomNumberArray[2]]);
+            answerDisplay4.text(answerArray[randomNumberArray[3]]);
+        }
+
+        function nextQuestion() {
+            questionIndex++;
+            renderQuestion();
         }
 
         renderQuestion();
         
-        $('#answer-button').on('click', function(){
-            questionIndex++;
-            renderQuestion();
+        $('.answer-button').click(function(){
+            if ($(this).text() === correctAnswer) {
+                if (difficulty === 'easy') {
+                    userScore += 100;
+                } else if (difficulty === 'medium') {
+                    userScore += 200;
+                } else {
+                    userScore += 300;
+                }
+            }
+            $('#score').text(userScore);
+            nextQuestion();
         });
 
     });
@@ -118,33 +225,7 @@ function playButtonClicked() {
     });
 }
 
-function startGameButtonClicked () {        
-    $(document).on('click', '#startGameButton', function(event) {
-        // prevent page from refreshing when form tries to submit itself
-        event.preventDefault();
-        $('#settingsMenu').addClass('hide');
-        $('#gameScreen').removeClass('hide');
-        
-        
-        var name = $("#username").val().trim();
-        //Either need to find the user through the array or create a counter 
-        database.ref('/users').push({
-            username: name,
-        });
-        
-        database.ref('/users').on("value", function(snapshot) {
-            // Log everything that's coming out of snapshot
-            console.log(snapshot.val());
-            console.log(snapshot.val().username);
-            
-            // Capture user inputs and store them into variables
-            $("#name-display").text(snapshot.val().username);
-            
-        }, function (errorObject) {
-            console.log("Errors handled: " + errorObject.code);
-        });
-    });
-}
+// where function used to be
 
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
@@ -153,7 +234,7 @@ function addScoreboardButtonListeners () {
     
 
     joke();
-    replay();
+    // replay();
     chooseNewTopic();
 }
 
