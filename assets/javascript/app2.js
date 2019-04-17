@@ -4,7 +4,7 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
-var time = 120;
+var time = 5;
 var highScore = "";
 
 //====================================================//
@@ -13,13 +13,25 @@ var highScore = "";
 var chefDisapprovalDialogueOptions = ['Mamma mia...', 'My goldfish can make better pizza', 'Did you even eat spaghetti for breakfast?', 'Cavolo! The customer is waiting...', 'You microwave your pizza?', 'You eat cereal, don\'t you?'];
 var chefGoodDialogue = ['Now, that is a pizza.', 'Tastes like Mozarella to me!', 'Maybe you\'re an Italian... Maybe', 'Caesar would be proud', 'When in Rome, do as the Romans do', 'Ah, a fresh pizza makes me think of home'];
 
+//====================================================//
+// Pizza Variables
+//====================================================//
+var currentPizzaOrder;
+var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
+var ingredientCount = 0;
+// var pepperoni1ingredients = 0;
+// var hawaiian3ingredients = 0;
+// var margherita2ingredients = 0;
+// var aifunghi4ingredients = 0;
+// var seafood5ingredient = 0;
+
 //========================================================//
 // Main Run Through
 //========================================================//
 $(document).ready(function () {
-    //============================//
-    // Initialize Firebase
-    //============================//
+    // //============================//
+    // // Initialize Firebase
+    // //============================//
     var config = {
         apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
         authDomain: "pizza-presto-28c03.firebaseapp.com",
@@ -38,7 +50,7 @@ $(document).ready(function () {
             event.preventDefault();
             $('#settingsMenu').addClass('hide');
             $('#gameScreen').removeClass('hide');
-            
+
             var name = $("#username").val().trim();
             //Either need to find the user through the array or create a counter 
             database.ref('/users').push({
@@ -63,17 +75,27 @@ $(document).ready(function () {
     }
 
 
+
+
     //============================//
     //Materialize Animations
     //============================//
     $('.fixed-action-btn').floatingActionButton();
     $('select').formSelect();  //For the select difficulty dropdown
 
-    //addEventListeners
+    //============================//
+    // Add Event Listeners
+    //============================//
     playButtonClicked();
     startGameButtonClicked();
     gameOverToScoreBoard();
     addScoreboardButtonListeners();
+
+    //============================//
+    // Display Pizza
+    //============================//
+    generateRandomPizzaOrder();
+    displayPizzaOrder();
 });
 
 //========================================================//
@@ -105,7 +127,7 @@ function triviaPull() {
         renderQuestion();
 
         function renderQuestion() {
-            
+
             // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
             function replaceWeirdSymbols(question) {
                 return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π').replace(/&ntilde;/g,'ñ').replace(/&aacute;/g,'á').replace(/&ouml;/g,'ö').replace(/&amp;/g,'&');
@@ -116,7 +138,7 @@ function triviaPull() {
 
             // Variable storing the trivia question
             var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
-            
+
             // Variables storing the correct answer and three incorrect answers
             correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
             var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
@@ -125,7 +147,7 @@ function triviaPull() {
 
             // Array with multiple choice answers
             answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
-            
+
             // This array is used to mix up the answers so they 
             // don't appear on the same buttons every time.
             // We repeat -1 so that we can easily recognize
@@ -188,15 +210,44 @@ function triviaPull() {
             renderQuestion();
         }
 
+        // var currentPizzaOrder;
+        // var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
+        // var pepperoni_1ingredients = 0;
+        // var hawaiian-3ingredients = 0;
+        // var margherita-2ingredients = 0;
+        // var aifunghi-4ingredients = 0;
+        // var seafood-5ingredient = 0;
 
         $('.answer-button').click(function () {
             if ($(this).text() === correctAnswer) {
-                if (difficulty === 'easy') {
-                    userScore += 100;
-                } else if (difficulty === 'medium') {
-                    userScore += 200;
+                if (currentPizzaOrder === 'pepperoni') {
+                    ingredientCount++;
+                    $('#pizza').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder1.png');
+                    finishedPizzaBounceOutAnimation();
+                } else if (currentPizzaOrder === 'margherita') {
+                    ingredientCount++;
+                    $('#pizza').attr('src', './assets/images/pizzas/margheritapizza' + ingredientCount + '.png');
+                    if (ingredientCount == 2) {
+                        finishedPizzaBounceOutAnimation();
+                    }
+                } else if (currentPizzaOrder === 'hawaiian') {
+                    ingredientCount++;
+                    $('#pizza').attr('src', './assets/images/pizzas/hawaiianpizza' + ingredientCount + '.png');
+                    if (ingredientCount == 3) {
+                        finishedPizzaBounceOutAnimation();
+                    }
+                } else if (currentPizzaOrder === 'aifunghi') {
+                    ingredientCount++;
+                    $('#pizza').attr('src', './assets/images/pizzas/aifunghi' + ingredientCount + '.png');
+                    if (ingredientCount == 4) {
+                        finishedPizzaBounceOutAnimation();
+                    }
                 } else {
-                    userScore += 300;
+                    ingredientCount++;
+                    $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza' + ingredientCount + '.png');
+                    if (ingredientCount == 5) {
+                        finishedPizzaBounceOutAnimation();
+                    }
                 }
                 chefApproval();
             } else {
@@ -210,9 +261,35 @@ function triviaPull() {
 
 }
 
+function finishedPizzaBounceOutAnimation() {
+    if (difficulty === 'easy') {
+        userScore += 100;
+    } else if (difficulty === 'medium') {
+        userScore += 200;
+    } else {
+        userScore += 300;
+    }
+
+    setTimeout(function () {
+        $('#pizza').addClass('animated bounceOutUp 2s');
+        // $('#pizza').addClass('animated bounceOutUp 3s');
+    }, 1000);
+
+    setTimeout(function () {
+        $('#pizza').removeClass('animated bounceOutUp 3s');
+        $('#pizza').attr('src', './assets/images/blankPizza.png');
+        ingredientCount = 0;
+
+        generateRandomPizzaOrder();
+        displayPizzaOrder();
+
+    }, 2000);
+
+}
+
 // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
 function replaceWeirdSymbols(question) {
-    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"').replace(/&amp;/g,'&');
+    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"').replace(/&amp;/g, '&');
 }
 
 
@@ -255,6 +332,43 @@ function chefDisapproval() {
 function chefApproval() {
     $('#dialogue').text(chefGoodDialogue[Math.floor(Math.random() * chefGoodDialogue.length)]);
     $('#chef').attr('src', './assets/images/happyChefwPizza.png')
+}
+
+//========================================================================================================//
+// Pizza Functions
+//========================================================================================================//
+//====================================================//
+// Choose a random pizza
+//====================================================//
+function generateRandomPizzaOrder() {
+    currentPizzaOrder = possiblePizzas[Math.floor(Math.random() * 5)];
+}
+
+//====================================================//
+// Display the Pizza Order
+//====================================================//
+function displayPizzaOrder() {
+    let index = possiblePizzas.indexOf(currentPizzaOrder);
+    if (index === 0) {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder1.png')
+    } else if (index === 1) {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder2.png')
+    } else if (index === 2) {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder3.png')
+    } else if (index === 3) {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder4.png')
+    } else {
+        $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder5.png')
+    }
+}
+
+function newOrderAndDisplayBlankPizza() {
+    displayPizzaOrder();
+    resetToBlankPizza();
+}
+
+function resetToBlankPizza() {
+    console.log('hi');
 }
 
 //=======================================================================================//
@@ -330,6 +444,10 @@ $("#startGameButton").on("click", timer);
 
 function timer() {
 
+    var time = 120;
+    var currentscore = "";
+    var highscore = $("#score1").val();
+
     setInterval(function () {
         time--;
 
@@ -344,13 +462,13 @@ function timer() {
 
     triviaPull();
 
+
     setTimeout(function(){
         $('.modal').modal(); 
         $('#modal1').modal('open');
-     }, (120 * 1000));
+     }, (5 * 1000));
 }
 
-        
     
 //Updates High Scores to firebase
 function checkScores() {
@@ -358,45 +476,46 @@ function checkScores() {
     var highScore;
     var currentScore = $('#score').val();
     var currentUser = $('#username').val();
-  
-    database.ref('/scores').on('value', function() {
-      // go through the array of scores, look for one with a username
-      // {
-      //   username: "bob",
-      //   highScore: 14
-      // }
-      // if we find one, set highScore to compare later
-      if (currentUser === snapshot.val()[0].username){
-        highScore = snapshot.val()[0].highScore;
-      } else {
-        // set the current value to the high score
-        database.ref('/score').set({
-          username: currentUser,
-          highScore: currentScore
-        })
-        return;
-      }
+
+    database.ref('/scores').on('value', function () {
+        // go through the array of scores, look for one with a username
+        // {
+        //   username: "bob",
+        //   highScore: 14
+        // }
+        // if we find one, set highScore to compare later
+        if (currentUser === snapshot.val()[0].username) {
+            highScore = snapshot.val()[0].highScore;
+        } else {
+            // set the current value to the high score
+            database.ref('/score').set({
+                username: currentUser,
+                highScore: currentScore
+            })
+            return;
+        }
     })
-  
+
     // if there is, check to see if we need to update it
-    if (highScore){
-      if (currentScore > highScore){
-        // update the database with the new high score
-        database.ref('/score').set({
-          username: currentUser,
-          highScore: currentScore
-        })
-      }
+    if (highScore) {
+        if (currentScore > highScore) {
+            // update the database with the new high score
+            database.ref('/score').set({
+                userName: currentUser,
+                highScore: currentScore
+            })
+        }
     }
     // if not, push a new object to the database
-  }
-  
-  // after the time expires, call checkScores
-  setTimeout(checkScores, time);
-  
-  
+}
+
+var time = 120000;
+// after the time expires, call checkScores
+setTimeout(checkScores, time);
+
+
   // pseudocode
-  
+
   // function def 
   // set up variables
   // access db and look for username
