@@ -36,8 +36,7 @@ $(document).ready(function () {
             event.preventDefault();
             $('#settingsMenu').addClass('hide');
             $('#gameScreen').removeClass('hide');
-
-
+            
             var name = $("#username").val().trim();
             //Either need to find the user through the array or create a counter 
             database.ref('/users').push({
@@ -82,7 +81,6 @@ $(document).ready(function () {
 function triviaPull() {
     difficulty = $('#difficulty').val().toLowerCase();
     var queryURL = 'https://opentdb.com/api.php?amount=50&difficulty=' + difficulty + '&type=multiple';
-    console.log(queryURL);
 
     $.ajax({
         url: queryURL,
@@ -103,12 +101,18 @@ function triviaPull() {
         renderQuestion();
 
         function renderQuestion() {
+            
+            // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
+            function replaceWeirdSymbols(question) {
+                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π');
+            } 
+            
             // Grabs the first question out the API data and stores it in current question variable
             currentQuestion = questionArray[questionIndex];
 
             // Variable storing the trivia question
             var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
-
+            
             // Variables storing the correct answer and three incorrect answers
             correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
             var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
@@ -117,7 +121,7 @@ function triviaPull() {
 
             // Array with multiple choice answers
             answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
-
+            
             // This array is used to mix up the answers so they 
             // don't appear on the same buttons every time.
             // We repeat -1 so that we can easily recognize
@@ -183,6 +187,7 @@ function triviaPull() {
 
         $('.answer-button').click(function () {
             if ($(this).text() === correctAnswer) {
+                $('#dialogue').text(correctQuestionDialogue[randomArrayIndex]);
                 if (difficulty === 'easy') {
                     userScore += 100;
                 } else if (difficulty === 'medium') {
@@ -190,6 +195,8 @@ function triviaPull() {
                 } else {
                     userScore += 300;
                 }
+            } else {
+                $('#dialogue').text('Mama mia you suck');
                 chefApproval();
             } else {
                 chefDisapproval();
