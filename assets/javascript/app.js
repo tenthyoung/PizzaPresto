@@ -4,8 +4,23 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
-var time = 5;
+var maxSeconds = 120;
+var secondsRemaining;
 var highScore = "";
+var intervalTimer;
+
+
+var correctAnswer;
+var questionIndex = 0;
+var questionArray;
+var answerArray = []
+var currentQuestion = {};
+var questionDisplay = $('#question');
+var answerDisplay1 = $('#answer1');
+var answerDisplay2 = $('#answer2');
+var answerDisplay3 = $('#answer3');
+var answerDisplay4 = $('#answer4');
+
 
 //====================================================//
 // Chef Variables
@@ -19,11 +34,6 @@ var chefGoodDialogue = ['Now, that is a pizza.', 'Tastes like Mozarella to me!',
 var currentPizzaOrder;
 var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
 var ingredientCount = 0;
-// var pepperoni1ingredients = 0;
-// var hawaiian3ingredients = 0;
-// var margherita2ingredients = 0;
-// var aifunghi4ingredients = 0;
-// var seafood5ingredient = 0;
 
 //========================================================//
 // Main Run Through
@@ -46,6 +56,12 @@ $(document).ready(function () {
 
     function startGameButtonClicked() {
         $(document).on('click', '#startGameButton', function (event) {
+            generateRandomPizzaOrder();
+            displayPizzaOrder();
+
+            secondsRemaining = maxSeconds;
+            intervalTimer = setInterval(timerTick, 1000);
+            triviaPull();
             // prevent page from refreshing when form tries to submit itself
             event.preventDefault();
             $('#settingsMenu').addClass('hide');
@@ -88,14 +104,14 @@ $(document).ready(function () {
     //============================//
     playButtonClicked();
     startGameButtonClicked();
-    gameOverToScoreBoard();
     addScoreboardButtonListeners();
+    addAnswerButtonListeners();
 
-    //============================//
-    // Display Pizza
-    //============================//
-    generateRandomPizzaOrder();
-    displayPizzaOrder();
+    // //============================//
+    // // Display Pizza
+    // //============================//
+    // generateRandomPizzaOrder();
+    // displayPizzaOrder();
 });
 
 //========================================================//
@@ -113,152 +129,93 @@ function triviaPull() {
         method: 'GET'
     }).then(function (response) {
 
-        var questionIndex = 0;
-        var questionArray = response.results;
-        var answerArray = []
-        var currentQuestion = {};
-        var questionDisplay = $('#question');
-        var answerDisplay1 = $('#answer1');
-        var answerDisplay2 = $('#answer2');
-        var answerDisplay3 = $('#answer3');
-        var answerDisplay4 = $('#answer4');
-        var correctAnswer;
-
+        questionArray = response.results;
         renderQuestion();
-
-        function renderQuestion() {
-
-            // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
-            function replaceWeirdSymbols(question) {
-                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π').replace(/&ntilde;/g,'ñ').replace(/&aacute;/g,'á').replace(/&ouml;/g,'ö').replace(/&amp;/g,'&');
-            } 
-            
-            // Grabs the first question out the API data and stores it in current question variable
-            currentQuestion = questionArray[questionIndex];
-
-            // Variable storing the trivia question
-            var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
-
-            // Variables storing the correct answer and three incorrect answers
-            correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
-            var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
-            var incorrectAnswer2 = replaceWeirdSymbols(currentQuestion.incorrect_answers[1]);
-            var incorrectAnswer3 = replaceWeirdSymbols(currentQuestion.incorrect_answers[2]);
-
-            // Array with multiple choice answers
-            answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
-
-            // This array is used to mix up the answers so they 
-            // don't appear on the same buttons every time.
-            // We repeat -1 so that we can easily recognize
-            // when a random number has already been used.
-            randomNumberArray = [-1, -1, -1, -1];
-
-            // This function is used to check if the random number
-            // has already been put in the array by looping through 
-            // the random number array and if the number isn't already 
-            // in the array, it returns false and continues looping, 
-            // but if it already exists in the array, it returns true
-            function randomNumberIsInArray(randomNumber) {
-                var isInArray = false;
-                for (let index = 0; index < 4; index++) {
-                    if (randomNumberArray[index] === randomNumber) {
-                        isInArray = true;
-                    }
-                }
-                return isInArray;
-            }
-
-            // This function says that when we create a new random number,
-            // if the random number is not already in the array, it is 
-            // valid so add it to the array and continue the loop. However,
-            // if the random number is already in the array, stop the loop
-            // and generate another random number
-            function getValidRandomNumber() {
-                var randomNumber;
-                invalidNumber = true;
-                while (invalidNumber) {
-                    randomNumber = Math.floor(Math.random() * 4);
-                    if (!randomNumberIsInArray(randomNumber)) {
-                        invalidNumber = false;
-                    }
-                }
-                return randomNumber;
-            }
-
-            // This funcation takes a valid random number that hasn't 
-            // already been used and adds it to the random number array
-            function randomizeIndexNumber() {
-                for (let index = 0; index < 4; index++) {
-                    randomNumberArray[index] = getValidRandomNumber();
-                }
-            }
-
-            // Call the function above to create random number array
-            randomizeIndexNumber();
-
-            // Display the random answers by plugging each random number into the answer array
-            questionDisplay.text(triviaQuestion);
-            answerDisplay1.text(answerArray[randomNumberArray[0]]);
-            answerDisplay2.text(answerArray[randomNumberArray[1]]);
-            answerDisplay3.text(answerArray[randomNumberArray[2]]);
-            answerDisplay4.text(answerArray[randomNumberArray[3]]);
-        }
-
-        function nextQuestion() {
-            questionIndex++;
-            renderQuestion();
-        }
-
-        // var currentPizzaOrder;
-        // var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
-        // var pepperoni_1ingredients = 0;
-        // var hawaiian-3ingredients = 0;
-        // var margherita-2ingredients = 0;
-        // var aifunghi-4ingredients = 0;
-        // var seafood-5ingredient = 0;
-
-        $('.answer-button').click(function () {
-            if ($(this).text() === correctAnswer) {
-                if (currentPizzaOrder === 'pepperoni') {
-                    ingredientCount++;
-                    $('#pizza').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder1.png');
-                    finishedPizzaBounceOutAnimation();
-                } else if (currentPizzaOrder === 'margherita') {
-                    ingredientCount++;
-                    $('#pizza').attr('src', './assets/images/pizzas/margheritapizza' + ingredientCount + '.png');
-                    if (ingredientCount == 2) {
-                        finishedPizzaBounceOutAnimation();
-                    }
-                } else if (currentPizzaOrder === 'hawaiian') {
-                    ingredientCount++;
-                    $('#pizza').attr('src', './assets/images/pizzas/hawaiianpizza' + ingredientCount + '.png');
-                    if (ingredientCount == 3) {
-                        finishedPizzaBounceOutAnimation();
-                    }
-                } else if (currentPizzaOrder === 'aifunghi') {
-                    ingredientCount++;
-                    $('#pizza').attr('src', './assets/images/pizzas/aifunghi' + ingredientCount + '.png');
-                    if (ingredientCount == 4) {
-                        finishedPizzaBounceOutAnimation();
-                    }
-                } else {
-                    ingredientCount++;
-                    $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza' + ingredientCount + '.png');
-                    if (ingredientCount == 5) {
-                        finishedPizzaBounceOutAnimation();
-                    }
-                }
-                chefApproval();
-            } else {
-                chefDisapproval();
-            }
-            $('#score').text(userScore);
-            nextQuestion();
-        });
-
     });
+}
 
+function renderQuestion() {
+
+    // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
+    function replaceWeirdSymbols(question) {
+        return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&ldquo;/g, '"').replace(/&pi;/g, 'π').replace(/&ntilde;/g, 'ñ').replace(/&aacute;/g, 'á').replace(/&ouml;/g, 'ö').replace(/&amp;/g,'&').replace(/&deg;/g,'°').replace(/&rsquo;/g, '"');
+    }
+
+    // Grabs the first question out the API data and stores it in current question variable
+    currentQuestion = questionArray[questionIndex];
+
+    // Variable storing the trivia question
+    var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
+
+    // Variables storing the correct answer and three incorrect answers
+    correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
+    var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
+    var incorrectAnswer2 = replaceWeirdSymbols(currentQuestion.incorrect_answers[1]);
+    var incorrectAnswer3 = replaceWeirdSymbols(currentQuestion.incorrect_answers[2]);
+
+    // Array with multiple choice answers
+    answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
+
+    // This array is used to mix up the answers so they 
+    // don't appear on the same buttons every time.
+    // We repeat -1 so that we can easily recognize
+    // when a random number has already been used.
+    randomNumberArray = [-1, -1, -1, -1];
+
+    // This function is used to check if the random number
+    // has already been put in the array by looping through 
+    // the random number array and if the number isn't already 
+    // in the array, it returns false and continues looping, 
+    // but if it already exists in the array, it returns true
+    function randomNumberIsInArray(randomNumber) {
+        var isInArray = false;
+        for (let index = 0; index < 4; index++) {
+            if (randomNumberArray[index] === randomNumber) {
+                isInArray = true;
+            }
+        }
+        return isInArray;
+    }
+
+    // This function says that when we create a new random number,
+    // if the random number is not already in the array, it is 
+    // valid so add it to the array and continue the loop. However,
+    // if the random number is already in the array, stop the loop
+    // and generate another random number
+    function getValidRandomNumber() {
+        var randomNumber;
+        invalidNumber = true;
+        while (invalidNumber) {
+            randomNumber = Math.floor(Math.random() * 4);
+            if (!randomNumberIsInArray(randomNumber)) {
+                invalidNumber = false;
+            }
+        }
+        return randomNumber;
+    }
+
+    // This funcation takes a valid random number that hasn't 
+    // already been used and adds it to the random number array
+    function randomizeIndexNumber() {
+        for (let index = 0; index < 4; index++) {
+            randomNumberArray[index] = getValidRandomNumber();
+        }
+    }
+
+    // Call the function above to create random number array
+    randomizeIndexNumber();
+
+    // Display the random answers by plugging each random number into the answer array
+    questionDisplay.text(triviaQuestion);
+    answerDisplay1.text(answerArray[randomNumberArray[0]]);
+    answerDisplay2.text(answerArray[randomNumberArray[1]]);
+    answerDisplay3.text(answerArray[randomNumberArray[2]]);
+    answerDisplay4.text(answerArray[randomNumberArray[3]]);
+}
+
+function nextQuestion() {
+    questionIndex++;
+    renderQuestion();
 }
 
 function finishedPizzaBounceOutAnimation() {
@@ -362,14 +319,6 @@ function displayPizzaOrder() {
     }
 }
 
-function newOrderAndDisplayBlankPizza() {
-    displayPizzaOrder();
-    resetToBlankPizza();
-}
-
-function resetToBlankPizza() {
-    console.log('hi');
-}
 
 //=======================================================================================//
 // Screen Changes
@@ -383,11 +332,12 @@ function playButtonClicked() {
     });
 }
 
-function gameOverToScoreBoard() {
-    $(document).on('click', '#modalButton', function () {
-        $('#gameScreen').addClass('hide');
-        $('#scoreBoardScreen').removeClass('hide');
-    })
+
+function gameOver() {
+    stopTimer();
+    $('#gameScreen').addClass('hide');
+    $('#scoreboardScreen').removeClass('hide');
+
 }
 
 // where function used to be
@@ -396,30 +346,65 @@ function gameOverToScoreBoard() {
 //or choose a new topic
 function addScoreboardButtonListeners() {
     replayWithSameDifficulty();
-
-
     joke();
-    // replay();
-    chooseNewTopic();
 }
+
+function addAnswerButtonListeners() {
+    $(document).on('click', '.answer-button', function () {
+        console.log('hi');
+        if ($(this).text() === correctAnswer) {
+            if (currentPizzaOrder === 'pepperoni') {
+                ingredientCount++;
+                $('#pizza').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder1.png');
+                finishedPizzaBounceOutAnimation();
+            } else if (currentPizzaOrder === 'margherita') {
+                ingredientCount++;
+                $('#pizza').attr('src', './assets/images/pizzas/margheritapizza' + ingredientCount + '.png');
+                if (ingredientCount == 2) {
+                    finishedPizzaBounceOutAnimation();
+                }
+            } else if (currentPizzaOrder === 'hawaiian') {
+                ingredientCount++;
+                $('#pizza').attr('src', './assets/images/pizzas/hawaiianpizza' + ingredientCount + '.png');
+                if (ingredientCount == 3) {
+                    finishedPizzaBounceOutAnimation();
+                }
+            } else if (currentPizzaOrder === 'aifunghi') {
+                ingredientCount++;
+                $('#pizza').attr('src', './assets/images/pizzas/aifunghi' + ingredientCount + '.png');
+                if (ingredientCount == 4) {
+                    finishedPizzaBounceOutAnimation();
+                }
+            } else {
+                ingredientCount++;
+                $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza' + ingredientCount + '.png');
+                if (ingredientCount == 5) {
+                    finishedPizzaBounceOutAnimation();
+                }
+            }
+            chefApproval();
+        } else {
+            chefDisapproval();
+        }
+        $('#score').text(userScore);
+        nextQuestion();
+    });
+}
+
 
 function replayWithSameDifficulty() {
-    $(document).on('click', '#replay', function () {
-        $('#scoreBoardScreen').addClass('hide');
-        $('#gameScreen').removeClass('hide');
+    $(document).on('click', '#replayButton', function () {
+        $('#scoreboardScreen').addClass('hide');
+        $('#settingsMenu').removeClass('hide');
+        $('#score').text('0');
+        userScore = 0;
+        $('#pizza').attr('src', './assets/images/blankPizza.png');
+        ingredientCount = 0;
+
+        generateRandomPizzaOrder();
+        displayPizzaOrder();
     });
 }
-
-
-
-//Brings the user back to the Topic screen
-function chooseNewTopic() {
-    $(document).on('click', '#replay', function () {
-        $('#scoreBoardScreen').addClass('d-none');
-        $('#topicsDiffcultyMenu').removeClass('d-none');
-    });
-}
-
 
 function timeConverter(timeInSeconds) {
 
@@ -440,78 +425,85 @@ function timeConverter(timeInSeconds) {
     return minutes + ":" + seconds;
 }
 
-$("#startGameButton").on("click", timer);
+function timerTick() {
+    secondsRemaining -= 1;
+    updateTimerDisplay();
+    if (secondsRemaining <= 0) {
+        gameOver();
+    }
+}
+
+function stopTimer() {
+    clearInterval(intervalTimer)
+}
+
+function updateTimerDisplay() {
+    $('#time').text(timeConverter(secondsRemaining));
+}
 
 function timer() {
 
     var time = 120;
-    var currentscore = "";
-    var highscore = $("#score1").val();
 
-    setInterval(function () {
+    timerTickID = setInterval(function () {
         time--;
-
-        if (time <= 0) { 
-            clearInterval(time);
-            $('#time').text("Game Over!");
-            return;
-        } else {
-            $('#time').text(timeConverter(time));
-        }
+        timeConverter(time)
     }, 1000);
 
     triviaPull();
 
 
-    setTimeout(function(){
-        $('.modal').modal(); 
-        $('#modal1').modal('open');
-     }, (5 * 1000));
+    setTimeout(function () {
+        $('#gameScreen').addClass('hide');
+        $('#scoreboardScreen').removeClass('hide');
+        // $('.modal').modal(); 
+        // $('#modal1').modal('open');
+        clearInterval(timerTickID);
+    }, (3 * 1000));
 }
 
-    
-//Updates High Scores to firebase
-function checkScores() {
-    // check if there's a high score in the database
-    var highScore;
-    var currentScore = $('#score').val();
-    var currentUser = $('#username').val();
 
-    database.ref('/scores').on('value', function () {
-        // go through the array of scores, look for one with a username
-        // {
-        //   username: "bob",
-        //   highScore: 14
-        // }
-        // if we find one, set highScore to compare later
-        if (currentUser === snapshot.val()[0].username) {
-            highScore = snapshot.val()[0].highScore;
-        } else {
-            // set the current value to the high score
-            database.ref('/score').set({
-                username: currentUser,
-                highScore: currentScore
-            })
-            return;
-        }
-    })
+// //Updates High Scores to firebase
+// // function checkScores() {
+//     // check if there's a high score in the database
+//     var highScore;
+//     var currentScore = $('#score').val();
+//     var currentUser = $('#username').val();
 
-    // if there is, check to see if we need to update it
-    if (highScore) {
-        if (currentScore > highScore) {
-            // update the database with the new high score
-            database.ref('/score').set({
-                userName: currentUser,
-                highScore: currentScore
-            })
-        }
-    }
-    // if not, push a new object to the database
-}
+//     database.ref('/scores').on('value', function () {
+//         // go through the array of scores, look for one with a username
+//         // {
+//         //   username: "bob",
+//         //   highScore: 14
+//         // }
+//         // if we find one, set highScore to compare later
+//         if (currentUser === snapshot.val()[0].username) {
+//             highScore = snapshot.val()[0].highScore;
+//         } else {
+//             // set the current value to the high score
+//             database.ref('/score').set({
+//                 username: currentUser,
+//                 highScore: currentScore
+//             })
+//             return;
+//         }
+//     })
 
-var time = 120000;
-// after the time expires, call checkScores
-setTimeout(checkScores, time);
+//     // if there is, check to see if we need to update it
+//     if (highScore) {
+//         if (currentScore > highScore) {
+//             // update the database with the new high score
+//             database.ref('/score').set({
+//                 userName: currentUser,
+//                 highScore: currentScore
+//             })
+//         }
+//     }
+//     // if not, push a new object to the database
+// }
+
+// // after the time expires, call checkScores
+// setTimeout(checkScores, time);
 
 
   // pseudocode
