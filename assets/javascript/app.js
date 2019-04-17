@@ -4,6 +4,7 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
+var time = 5;
 var highScore = "";
 
 //====================================================//
@@ -71,6 +72,7 @@ $(document).ready(function () {
     //addEventListeners
     playButtonClicked();
     startGameButtonClicked();
+    gameOverToScoreBoard();
     addScoreboardButtonListeners();
 });
 
@@ -106,7 +108,7 @@ function triviaPull() {
             
             // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
             function replaceWeirdSymbols(question) {
-                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π');
+                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π').replace(/&ntilde;/g,'ñ').replace(/&aacute;/g,'á').replace(/&ouml;/g,'ö').replace(/&amp;/g,'&');
             } 
             
             // Grabs the first question out the API data and stores it in current question variable
@@ -267,6 +269,13 @@ function playButtonClicked() {
     });
 }
 
+function gameOverToScoreBoard() {
+    $(document).on('click', '#modalButton', function () {
+        $('#gameScreen').addClass('hide');
+        $('#scoreBoardScreen').removeClass('hide');
+    })
+}
+
 // where function used to be
 
 //Shows the scoreBoard, gives the user the option to replay the game, 
@@ -321,14 +330,10 @@ $("#startGameButton").on("click", timer);
 
 function timer() {
 
-    var time = 120;
-    var currentscore = "";
-    var highscore = $("#score1").val();
-
     setInterval(function () {
         time--;
 
-        if (time <= 0) {
+        if (time <= 0) { 
             clearInterval(time);
             $('#time').text("Game Over!");
             return;
@@ -338,6 +343,13 @@ function timer() {
     }, 1000);
 
     triviaPull();
+
+    setTimeout(function(){
+        $('.modal').modal(); 
+        $('#modal1').modal('open');
+     }, (5 * 1000));
+}
+
         }
     
 //Updates High Scores to firebase
