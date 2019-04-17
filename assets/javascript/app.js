@@ -32,7 +32,6 @@ $(document).ready(function () {
             $('#settingsMenu').addClass('hide');
             $('#gameScreen').removeClass('hide');
             
-            
             var name = $("#username").val().trim();
             //Either need to find the user through the array or create a counter 
             database.ref('/users').push({
@@ -96,7 +95,7 @@ function triviaPull() {
             
             // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
             function replaceWeirdSymbols(question) {
-                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&rdquo;/g,'"');
+                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π');
             } 
             
             // Grabs the first question out the API data and stores it in current question variable
@@ -104,7 +103,7 @@ function triviaPull() {
 
             // Variable storing the trivia question
             var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
-
+            
             // Variables storing the correct answer and three incorrect answers
             correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
             var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
@@ -178,8 +177,12 @@ function triviaPull() {
 
         renderQuestion();
         
+        var correctQuestionDialogue = ['Let\'s a go!', 'That is one a SPICY a meatball', 'Mama mia! Pizza presto!'];
+        var randomArrayIndex = Math.floor(Math.random() * (correctQuestionDialogue.length - 1));
+
         $('.answer-button').click(function(){
             if ($(this).text() === correctAnswer) {
+                $('#dialogue').text(correctQuestionDialogue[randomArrayIndex]);
                 if (difficulty === 'easy') {
                     userScore += 100;
                 } else if (difficulty === 'medium') {
@@ -187,6 +190,8 @@ function triviaPull() {
                 } else {
                     userScore += 300;
                 }
+            } else {
+                $('#dialogue').text('Mama mia you suck');
             }
             $('#score').text(userScore);
             nextQuestion();
