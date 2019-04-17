@@ -1,10 +1,16 @@
-
 //========================================================//
 //Global Variables
 //========================================================//
 var username = "";
 var userScore = 0;
 var difficulty = "";
+var time = 5;
+
+//====================================================//
+// Chef Variables
+//====================================================//
+var chefDisapprovalDialogueOptions = ['Mamma mia...', 'My goldfish can make better pizza', 'Did you even eat spaghetti for breakfast?', 'Cavolo! The customer is waiting...', 'You microwave your pizza?', 'You eat cereal, don\'t you?'];
+var chefGoodDialogue = ['Now, that is a pizza.', 'Tastes like Mozarella to me!', 'Maybe you\'re an Italian... Maybe', 'Caesar would be proud', 'When in Rome, do as the Romans do', 'Ah, a fresh pizza makes me think of home'];
 
 //========================================================//
 // Main Run Through
@@ -64,6 +70,7 @@ $(document).ready(function () {
     //addEventListeners
     playButtonClicked();
     startGameButtonClicked();
+    gameOverToScoreBoard();
     addScoreboardButtonListeners();
 });
 
@@ -99,7 +106,7 @@ function triviaPull() {
             
             // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
             function replaceWeirdSymbols(question) {
-                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π');
+                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π').replace(/&ntilde;/g,'ñ').replace(/&aacute;/g,'á').replace(/&ouml;/g,'ö').replace(/&amp;/g,'&');
             } 
             
             // Grabs the first question out the API data and stores it in current question variable
@@ -182,7 +189,6 @@ function triviaPull() {
 
         $('.answer-button').click(function () {
             if ($(this).text() === correctAnswer) {
-                $('#dialogue').text(correctQuestionDialogue[randomArrayIndex]);
                 if (difficulty === 'easy') {
                     userScore += 100;
                 } else if (difficulty === 'medium') {
@@ -190,8 +196,9 @@ function triviaPull() {
                 } else {
                     userScore += 300;
                 }
+                chefApproval();
             } else {
-                $('#dialogue').text('Mama mia you suck');
+                chefDisapproval();
             }
             $('#score').text(userScore);
             nextQuestion();
@@ -203,7 +210,7 @@ function triviaPull() {
 
 // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
 function replaceWeirdSymbols(question) {
-    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"');
+    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"').replace(/&amp;/g,'&');
 }
 
 
@@ -226,6 +233,28 @@ function joke() {
 
 }
 
+//========================================================================================================//
+// Chef Animations
+//========================================================================================================//
+function chefDisapproval() {
+    $('#dialogue').text(chefDisapprovalDialogueOptions[Math.floor(Math.random() * chefDisapprovalDialogueOptions.length)]);
+    $('#chef').attr('src', './assets/images/chefwrong1.png');
+    // console.log('1')
+    // setTimeout(function() {
+    //     $('#chef').attr('src', './assets/images/chefwrong2.png')
+    //     console.log('2')
+    // },2000);
+    // setTimeout(function() {
+    //     $('#chef').attr('src', './assets/images/chefwrong1.png')
+    //     console.log('3')
+    // },2000);
+}
+
+function chefApproval() {
+    $('#dialogue').text(chefGoodDialogue[Math.floor(Math.random() * chefGoodDialogue.length)]);
+    $('#chef').attr('src', './assets/images/happyChefwPizza.png')
+}
+
 //=======================================================================================//
 // Screen Changes
 //=======================================================================================//
@@ -236,6 +265,13 @@ function playButtonClicked() {
         $('#menuScreen').addClass('hide');
         $('#settingsMenu').removeClass('hide');
     });
+}
+
+function gameOverToScoreBoard() {
+    $(document).on('click', '#modalButton', function () {
+        $('#gameScreen').addClass('hide');
+        $('#scoreBoardScreen').removeClass('hide');
+    })
 }
 
 // where function used to be
@@ -292,12 +328,10 @@ $("#startGameButton").on("click", timer);
 
 function timer() {
 
-    var time = 120;
-
     setInterval(function () {
         time--;
 
-        if (time <= 0) {
+        if (time <= 0) { 
             clearInterval(time);
             $('#time').text("Game Over!");
             return;
@@ -307,5 +341,10 @@ function timer() {
     }, 1000);
 
     triviaPull();
+
+    setTimeout(function(){
+        $('.modal').modal(); 
+        $('#modal1').modal('open');
+     }, (5 * 1000));
 }
 
