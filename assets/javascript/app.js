@@ -322,7 +322,7 @@ $("#startGameButton").on("click", timer);
 function timer() {
 
     var time = 120;
-    var currentscore ="";
+    var currentscore = "";
     var highscore = $("#score1").val();
 
     setInterval(function () {
@@ -344,7 +344,7 @@ function timer() {
 function checkScores() {
     // check if there's a high score in the database
     var highScore;
-    var currentScore = $('#currentScore').val();
+    var currentScore = $('#score').val();
     var currentUser = $('#username').val();
   
     database.ref('/scores').on('value', function() {
