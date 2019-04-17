@@ -371,7 +371,7 @@ function checkScores() {
       if (currentScore > highScore){
         // update the database with the new high score
         database.ref('/score').set({
-          userName: currentUser,
+          username: currentUser,
           highScore: currentScore
         })
       }
