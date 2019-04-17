@@ -11,11 +11,18 @@ var time = 120;
 //====================================================//
 var currentPizzaOrder;
 var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
+var pepperoni = 'false';
+var hawaiian = ['false', 'false','false'];
+var margherita = ['false','false'];
+var aifunghi = ['false', 'false','false','false'];
+var seafood = ['false', 'false','false','false','false'];
 
 //====================================================//
 // Chef Variables
 //====================================================//
-var chefDisapprovalAnimationID = "";
+var chefDisapprovalDialogueOptions = ['Mamma mia...', 'My goldfish can make better pizza', 'Did you even eat spaghetti for breakfast?', 'Cavolo! The customer is waiting...', 'You microwave your pizza?', 'You eat cereal, don\'t you?'];
+var chefGoodDialogue = ['Now, that is a pizza.', 'Tastes like Mozarella to me!', 'Maybe you\'re an Italian... Maybe', 'Caesar would be proud', 'When in Rome, do as the Romans do', 'Ah, a fresh pizza makes me think of home'];
+
 //====================================================//
 // Trivia Variables
 //====================================================//
@@ -45,7 +52,6 @@ $(document).ready(function () {
     addMenuScreenPlayButtonListener();
     addSettingsSubmitButtonListener();
     addAnswerButtonListeners();
-    chefDisapproval();
 });
 //========================================================================================================//
 // Start Game
@@ -133,7 +139,7 @@ function prepareQuestionsAndAnswerByRemovingWeirdSymbols() {
 }
 
 function cleanUp(string) {
-    return string.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"');
+    return string.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"').replace(/&amp;/g,'&');
 }
 
 //========================================================================================================//
@@ -162,21 +168,95 @@ function displayPizzaOrder() {
     } else {
         $('#pizzaOrder').attr('src', './assets/images/pizzas/pizzaOrders/pizzaOrder5.png')
     }
+}
 
+function newOrderAndDisplayBlankPizza() {
+    displayPizzaOrder();
+}
+
+//====================================================//
+// Ingredient Functions
+//====================================================//
+var currentPizzaOrder;
+var possiblePizzas = ['pepperoni', 'hawaiian', 'margherita', 'aifunghi', 'seafood'];
+var pepperoni = 'false';
+var hawaiian = ['false', 'false','false'];
+var margherita = ['false','false'];
+var aifunghi = ['false', 'false','false','false'];
+var seafood = ['false', 'false','false','false','false'];
+
+function addIngredient() {
+    if (currentPizzaOrder == 'pepperoni') {
+        if (pepperoni[0] == false) {
+            $('#pizza').attr('src', './assets/images/pizzas/pepperonipizza.png');
+            pepperoni[0] = true;
+            newOrderAndDisplayBlankPizza();
+        }
+    } 
+    // else if (currentPizza == 'hawaiian') {
+    //     if (hawaiian[0] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/hawaiianpizza1.png');        
+    //         hawaiian[0] = true;
+    //     } else if (hawaiian[1] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/hawaiianpizza2.png');            
+    //         hawaiian[1] = true;
+    //     } else if (hawaiian[2] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/hawaiianpizza3.png');
+    //         hawaiian[2] = true;
+    //     }
+    // } else if (currentPizza == 'margherita') {
+    //     if (margherita[0] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/margheritapizza1.png');            
+    //         asdaf[0] = true;
+    //     }else if [margherita[1] == false] {
+    //         $('#pizza').attr('src', './assets/images/pizzas/margheritapizza2.png');            
+    //     }
+    // } else if (currentPizza == 'aifunghi') {
+    //     if (margherita[0] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/aifunghi1.png');            
+    //     } else if (margherita[1] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/aifunghi2.png');            
+    //     } else if (margherita[2] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/aifunghi3.png');
+    //     } else {
+    //         $('#pizza').attr('src', './assets/images/pizzas/aifunghi4.png');
+    //     }
+    // } else  {
+    //     if (seafood[0] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza1.png');            
+    //     } else if (seafood[1] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza2.png');            
+    //     } else if (seafood[2] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza3.png');
+    //     } else if (seafood[3] == false) {
+    //         $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza4.png');
+    //     } else {
+    //         $('#pizza').attr('src', './assets/images/pizzas/seafoodpizza5.png');
+    //     }
+    // }
 }
 
 //========================================================================================================//
 // Chef Animations
 //========================================================================================================//
 function chefDisapproval() {
-    chefDisapprovalAnimationID = setInterval(function() {
-        $('#chef').attr('src', './assets/images/chefwrong1.png')
-        setTimeout(function() {
-            $('#chef').attr('src', './assets/images/chefwrong2.png')
-        },1000);
-    },3000);
+    $('#dialogue').text(chefDisapprovalDialogueOptions[Math.floor(Math.random() * chefDisapprovalDialogueOptions.length)]);
+    $('#chef').attr('src', './assets/images/chefwrong1.png');
+    // console.log('1')
+    // setTimeout(function() {
+    //     $('#chef').attr('src', './assets/images/chefwrong2.png')
+    //     console.log('2')
+    // },2000);
+    // setTimeout(function() {
+    //     $('#chef').attr('src', './assets/images/chefwrong1.png')
+    //     console.log('3')
+    // },2000);
 }
 
+function chefApproval() {
+    $('#dialogue').text(chefGoodDialogue[Math.floor(Math.random() * chefGoodDialogue.length)]);
+    $('#chef').attr('src', './assets/images/happyChefwPizza.png')
+}
 //========================================================================================================//
 // Timer Functions
 //========================================================================================================//
@@ -244,6 +324,8 @@ function addAnswerButtonListeners() {
             } else {
                 userScore += 300;
             }
+            chefApproval();
+            addIngredient();
         } else {
             chefDisapproval();
         }
