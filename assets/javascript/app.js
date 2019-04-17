@@ -306,6 +306,7 @@ function timer() {
     triviaPull();
         }
     
+//Updates High Scores to firebase
 function checkScores() {
     // check if there's a high score in the database
     var highScore;
