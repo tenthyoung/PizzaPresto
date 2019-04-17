@@ -1,4 +1,3 @@
-
 //========================================================//
 //Global Variables
 //========================================================//
@@ -6,6 +5,12 @@ var username = "";
 var userScore = 0;
 var difficulty = "";
 var highScore = "";
+
+//====================================================//
+// Chef Variables
+//====================================================//
+var chefDisapprovalDialogueOptions = ['Mamma mia...', 'My goldfish can make better pizza', 'Did you even eat spaghetti for breakfast?', 'Cavolo! The customer is waiting...', 'You microwave your pizza?', 'You eat cereal, don\'t you?'];
+var chefGoodDialogue = ['Now, that is a pizza.', 'Tastes like Mozarella to me!', 'Maybe you\'re an Italian... Maybe', 'Caesar would be proud', 'When in Rome, do as the Romans do', 'Ah, a fresh pizza makes me think of home'];
 
 //========================================================//
 // Main Run Through
@@ -32,8 +37,7 @@ $(document).ready(function () {
             event.preventDefault();
             $('#settingsMenu').addClass('hide');
             $('#gameScreen').removeClass('hide');
-
-
+            
             var name = $("#username").val().trim();
             //Either need to find the user through the array or create a counter 
             database.ref('/users').push({
@@ -79,7 +83,6 @@ $(document).ready(function () {
 function triviaPull() {
     difficulty = $('#difficulty').val().toLowerCase();
     var queryURL = 'https://opentdb.com/api.php?amount=50&difficulty=' + difficulty + '&type=multiple';
-    console.log(queryURL);
 
     $.ajax({
         url: queryURL,
@@ -100,12 +103,18 @@ function triviaPull() {
         renderQuestion();
 
         function renderQuestion() {
+            
+            // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
+            function replaceWeirdSymbols(question) {
+                return question.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&shy;/g,"").replace(/&rdquo;/g,'"').replace(/&ldquo;/g,'"').replace(/&pi;/g,'π');
+            } 
+            
             // Grabs the first question out the API data and stores it in current question variable
             currentQuestion = questionArray[questionIndex];
 
             // Variable storing the trivia question
             var triviaQuestion = replaceWeirdSymbols(currentQuestion.question);
-
+            
             // Variables storing the correct answer and three incorrect answers
             correctAnswer = replaceWeirdSymbols(currentQuestion.correct_answer);
             var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
@@ -114,7 +123,7 @@ function triviaPull() {
 
             // Array with multiple choice answers
             answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
-
+            
             // This array is used to mix up the answers so they 
             // don't appear on the same buttons every time.
             // We repeat -1 so that we can easily recognize
@@ -187,6 +196,9 @@ function triviaPull() {
                 } else {
                     userScore += 300;
                 }
+                chefApproval();
+            } else {
+                chefDisapproval();
             }
             $('#score').text(userScore);
             nextQuestion();
@@ -198,7 +210,7 @@ function triviaPull() {
 
 // Finds the HTML symbols in the questions/answers and replaces them with readable symbols
 function replaceWeirdSymbols(question) {
-    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"');
+    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"').replace(/&amp;/g,'&');
 }
 
 
@@ -219,6 +231,28 @@ function joke() {
 
     });
 
+}
+
+//========================================================================================================//
+// Chef Animations
+//========================================================================================================//
+function chefDisapproval() {
+    $('#dialogue').text(chefDisapprovalDialogueOptions[Math.floor(Math.random() * chefDisapprovalDialogueOptions.length)]);
+    $('#chef').attr('src', './assets/images/chefwrong1.png');
+    // console.log('1')
+    // setTimeout(function() {
+    //     $('#chef').attr('src', './assets/images/chefwrong2.png')
+    //     console.log('2')
+    // },2000);
+    // setTimeout(function() {
+    //     $('#chef').attr('src', './assets/images/chefwrong1.png')
+    //     console.log('3')
+    // },2000);
+}
+
+function chefApproval() {
+    $('#dialogue').text(chefGoodDialogue[Math.floor(Math.random() * chefGoodDialogue.length)]);
+    $('#chef').attr('src', './assets/images/happyChefwPizza.png')
 }
 
 //=======================================================================================//
