@@ -187,7 +187,6 @@ function triviaPull() {
 
         $('.answer-button').click(function () {
             if ($(this).text() === correctAnswer) {
-                $('#dialogue').text(correctQuestionDialogue[randomArrayIndex]);
                 if (difficulty === 'easy') {
                     userScore += 100;
                 } else if (difficulty === 'medium') {
@@ -195,8 +194,6 @@ function triviaPull() {
                 } else {
                     userScore += 300;
                 }
-            } else {
-                $('#dialogue').text('Mama mia you suck');
                 chefApproval();
             } else {
                 chefDisapproval();
