@@ -4,6 +4,7 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
+var highScore = "";
 
 //====================================================//
 // Chef Variables
@@ -59,6 +60,7 @@ $(document).ready(function () {
             });
         });
     }
+
 
     //============================//
     //Materialize Animations
@@ -320,6 +322,8 @@ $("#startGameButton").on("click", timer);
 function timer() {
 
     var time = 120;
+    var currentscore ="";
+    var highscore = $("#score1").val();
 
     setInterval(function () {
         time--;
@@ -334,5 +338,58 @@ function timer() {
     }, 1000);
 
     triviaPull();
-}
-
+        }
+    
+//Updates High Scores to firebase
+function checkScores() {
+    // check if there's a high score in the database
+    var highScore;
+    var currentScore = $('#currentScore').val();
+    var currentUser = $('#username').val();
+  
+    database.ref('/scores').on('value', function() {
+      // go through the array of scores, look for one with a username
+      // {
+      //   username: "bob",
+      //   highScore: 14
+      // }
+      // if we find one, set highScore to compare later
+      if (currentUser === snapshot.val()[0].username){
+        highScore = snapshot.val()[0].highScore;
+      } else {
+        // set the current value to the high score
+        database.ref('/score').set({
+          username: currentUser,
+          highScore: currentScore
+        })
+        return;
+      }
+    })
+  
+    // if there is, check to see if we need to update it
+    if (highScore){
+      if (currentScore > highScore){
+        // update the database with the new high score
+        database.ref('/score').set({
+          userName: currentUser,
+          highScore: currentScore
+        })
+      }
+    }
+    // if not, push a new object to the database
+  }
+  
+  var time = 120000;
+  // after the time expires, call checkScores
+  setTimeout(checkScores, time);
+  
+  
+  // pseudocode
+  
+  // function def 
+  // set up variables
+  // access db and look for username
+  // if there is a username, get the high score 
+  // if there isn't, then set the current score as the high score
+  // if the username was found, check to see if the current score is larger than the high score
+  // if the current score is greater than the high score, update the db with the new high score
