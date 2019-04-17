@@ -25,8 +25,8 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    function startGameButtonClicked () {        
-        $(document).on('click', '#startGameButton', function(event) {
+    function startGameButtonClicked() {
+        $(document).on('click', '#startGameButton', function (event) {
             // prevent page from refreshing when form tries to submit itself
             event.preventDefault();
             $('#settingsMenu').addClass('hide');
@@ -37,15 +37,18 @@ $(document).ready(function () {
             database.ref('/users').push({
                 username: name,
             });
-            
-            database.ref('/users').on("value", function(snapshot) {
+
+            //Makes the username for the Game Screen into the User's settings
+            $('#username-display').text(name);
+
+            database.ref('/users').on("value", function (snapshot) {
                 // Log everything that's coming out of snapshot
                 console.log(snapshot.val());
                 console.log(snapshot.val().username);
-                
+
                 // Capture user inputs and store them into variables
                 $("#name-display").text(snapshot.val().username);
-                
+
             }, function (errorObject) {
                 console.log("Errors handled: " + errorObject.code);
             });
@@ -57,29 +60,28 @@ $(document).ready(function () {
     //============================//
     $('.fixed-action-btn').floatingActionButton();
     $('select').formSelect();  //For the select difficulty dropdown
-    
+
     //addEventListeners
     playButtonClicked();
     startGameButtonClicked();
     addScoreboardButtonListeners();
 });
-        
+
 //========================================================//
 // APIs
 //========================================================//
-//One the scoreboard page, the chef will say a random pizza joke
+//On the scoreboard page, the chef will say a random pizza joke
 //on the bottom
 
 function triviaPull() {
-
     difficulty = $('#difficulty').val().toLowerCase();
     var queryURL = 'https://opentdb.com/api.php?amount=50&difficulty=' + difficulty + '&type=multiple';
 
     $.ajax({
         url: queryURL,
         method: 'GET'
-    }).then(function(response){
-        
+    }).then(function (response) {
+
         var questionIndex = 0;
         var questionArray = response.results;
         var answerArray = []
@@ -90,6 +92,8 @@ function triviaPull() {
         var answerDisplay3 = $('#answer3');
         var answerDisplay4 = $('#answer4');
         var correctAnswer;
+
+        renderQuestion();
 
         function renderQuestion() {
             
@@ -109,7 +113,7 @@ function triviaPull() {
             var incorrectAnswer1 = replaceWeirdSymbols(currentQuestion.incorrect_answers[0]);
             var incorrectAnswer2 = replaceWeirdSymbols(currentQuestion.incorrect_answers[1]);
             var incorrectAnswer3 = replaceWeirdSymbols(currentQuestion.incorrect_answers[2]);
-            
+
             // Array with multiple choice answers
             answerArray = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, correctAnswer];
             
@@ -130,10 +134,10 @@ function triviaPull() {
                     if (randomNumberArray[index] === randomNumber) {
                         isInArray = true;
                     }
-                } 
+                }
                 return isInArray;
             }
-            
+
             // This function says that when we create a new random number,
             // if the random number is not already in the array, it is 
             // valid so add it to the array and continue the loop. However,
@@ -147,7 +151,7 @@ function triviaPull() {
                     if (!randomNumberIsInArray(randomNumber)) {
                         invalidNumber = false;
                     }
-                } 
+                }
                 return randomNumber;
             }
 
@@ -161,7 +165,7 @@ function triviaPull() {
 
             // Call the function above to create random number array
             randomizeIndexNumber();
-            
+
             // Display the random answers by plugging each random number into the answer array
             questionDisplay.text(triviaQuestion);
             answerDisplay1.text(answerArray[randomNumberArray[0]]);
@@ -175,12 +179,8 @@ function triviaPull() {
             renderQuestion();
         }
 
-        renderQuestion();
-        
-        var correctQuestionDialogue = ['Let\'s a go!', 'That is one a SPICY a meatball', 'Mama mia! Pizza presto!'];
-        var randomArrayIndex = Math.floor(Math.random() * (correctQuestionDialogue.length - 1));
 
-        $('.answer-button').click(function(){
+        $('.answer-button').click(function () {
             if ($(this).text() === correctAnswer) {
                 $('#dialogue').text(correctQuestionDialogue[randomArrayIndex]);
                 if (difficulty === 'easy') {
@@ -201,29 +201,38 @@ function triviaPull() {
 
 }
 
+// Finds the HTML symbols in the questions/answers and replaces them with readable symbols
+function replaceWeirdSymbols(question) {
+    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&shy;/g, "").replace(/&rdquo;/g, '"').replace(/&rdquo;/g, '"');
+}
+
+
+//=======================================================================================//
+//Joke API
+//=======================================================================================//
 function joke() {
     var queryURL = "https://official-joke-api.appspot.com/random_joke";
-    
+
     $.ajax({
-        url:queryURL,
+        url: queryURL,
         method: 'GET'
-    }).then(function(response) {
+    }).then(function (response) {
         console.log(response)
         console.log(response.setup)
         $('#setup').text(response.setup);  //[ ] I need to animate this
         $('#punchline').text(response.punchline);
-        
+
     });
-    
+
 }
 
-//========================================================//
+//=======================================================================================//
 // Screen Changes
-//========================================================//
+//=======================================================================================//
 
 //Adds an event listener to the play button, which brings us to the next screen
 function playButtonClicked() {
-    $(document).on('click', '#playButton', function() {
+    $(document).on('click', '#playButton', function () {
         $('#menuScreen').addClass('hide');
         $('#settingsMenu').removeClass('hide');
     });
@@ -233,9 +242,9 @@ function playButtonClicked() {
 
 //Shows the scoreBoard, gives the user the option to replay the game, 
 //or choose a new topic
-function addScoreboardButtonListeners () {
+function addScoreboardButtonListeners() {
     replayWithSameDifficulty();
-    
+
 
     joke();
     // replay();
@@ -243,7 +252,7 @@ function addScoreboardButtonListeners () {
 }
 
 function replayWithSameDifficulty() {
-    $(document).on('click', '#replay', function() {
+    $(document).on('click', '#replay', function () {
         $('#scoreBoardScreen').addClass('hide');
         $('#gameScreen').removeClass('hide');
     });
@@ -253,53 +262,38 @@ function replayWithSameDifficulty() {
 
 //Brings the user back to the Topic screen
 function chooseNewTopic() {
-    $(document).on('click', '#replay', function() {
+    $(document).on('click', '#replay', function () {
         $('#scoreBoardScreen').addClass('d-none');
         $('#topicsDiffcultyMenu').removeClass('d-none');
-    });
-}
-
-function joke() {
-    var queryURL = "https://official-joke-api.appspot.com/random_joke";
-    
-    $.ajax({
-        url:queryURL,
-        method: 'GET'
-    }).then(function(response) {
-        console.log(response)
-        console.log(response.setup)
-        $('#setup').text(response.setup);  //[ ] I need to animate this
-        $('#punchline').text(response.punchline);
-        
     });
 }
 
 
 function timeConverter(timeInSeconds) {
 
-  var minutes = Math.floor(timeInSeconds / 60);
-  var seconds = timeInSeconds - (minutes * 60);
+    var minutes = Math.floor(timeInSeconds / 60);
+    var seconds = timeInSeconds - (minutes * 60);
 
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
 
-  if (minutes === 0) {
-    minutes = "00";
-  }
-  else if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
+    if (minutes === 0) {
+        minutes = "00";
+    }
+    else if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
 
-  return minutes + ":" + seconds;
+    return minutes + ":" + seconds;
 }
 
-$("#startGameButton").on("click", timer); 
+$("#startGameButton").on("click", timer);
 
 function timer() {
 
     var time = 120;
-    
+
     setInterval(function () {
         time--;
 

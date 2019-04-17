@@ -121,7 +121,6 @@ select, option {
 /*============*/
 /* ChefnPizza */
 /*============*/
-
 #chef {
     height: 300px;
 }
@@ -150,7 +149,7 @@ select, option {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 220px;
+    height: 270px;
     border-radius: 20px;
     margin: 0 auto;
     width: 100%;
@@ -196,6 +195,12 @@ select, option {
 
 #questionRow {
     margin-bottom: 0;
+}
+
+#question {
+    text-align: justify;
+    padding-right: 15px;
+    font-size: 1.1rem;
 }
 
 #topAnswerRow, #bottomAnswerRow {
@@ -347,10 +352,13 @@ select, option {
         height: 100px;
     }
 
-    #timerContainer, #question {
-        font-size: 1.4rem;
+    #timerContainer {
         text-align: center;
         margin-left: 0;
+    }
+
+    #question {
+        font-size: 1rem;
     }
 
     #pizzaOrderRow {
@@ -359,6 +367,10 @@ select, option {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+
+    .answer {
+        margin-top: 0;
     }
 
     #questionAnswerRow {
