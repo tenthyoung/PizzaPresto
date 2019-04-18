@@ -4,7 +4,7 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
-var maxSeconds = 120;
+var maxSeconds = 30;
 var secondsRemaining;
 var highScore = "";
 var intervalTimer;
@@ -94,6 +94,7 @@ $(document).ready(function() {
       $("#gameScreen").removeClass("hide");
 
       var name = $("#username").val().trim();
+      username = name;
 
       //Either need to find the user through the array or create a counter
       database.ref("/users").push({
