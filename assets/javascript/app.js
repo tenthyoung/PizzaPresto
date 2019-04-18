@@ -90,9 +90,6 @@ $(document).ready(function () {
         });
     }
 
-
-
-
     //============================//
     //Materialize Animations
     //============================//
@@ -262,9 +259,17 @@ function joke() {
     }).then(function (response) {
         console.log(response)
         console.log(response.setup)
-        $('#setup').text(response.setup);  //[ ] I need to animate this
-        $('#punchline').text(response.punchline);
+        $('#scoreboardDialogue').text(response.setup);
+        setTimeout(function() {
+            $('#scoreboardDialogue').text(response.punchline);
+        },3000);
+        setTimeout(function() {
+            $('#scoreboardDialogue').text("Let's play again?");
+            $('#scoreboardChef').attr('src','./assets/images/chef_neutral.png');
+        },7000);
+        setTimeout(function() {
 
+        },11000);
     });
 
 }
@@ -337,7 +342,7 @@ function gameOver() {
     stopTimer();
     $('#gameScreen').addClass('hide');
     $('#scoreboardScreen').removeClass('hide');
-
+    joke();
 }
 
 // where function used to be
@@ -346,7 +351,6 @@ function gameOver() {
 //or choose a new topic
 function addScoreboardButtonListeners() {
     replayWithSameDifficulty();
-    joke();
 }
 
 function addAnswerButtonListeners() {
@@ -397,10 +401,11 @@ function replayWithSameDifficulty() {
         $('#scoreboardScreen').addClass('hide');
         $('#settingsMenu').removeClass('hide');
         $('#score').text('0');
+        $('#scoreboardChef').attr('src','./assets/images/happyChefwPizza.png');
         userScore = 0;
         $('#pizza').attr('src', './assets/images/blankPizza.png');
         ingredientCount = 0;
-
+        
         generateRandomPizzaOrder();
         displayPizzaOrder();
     });
