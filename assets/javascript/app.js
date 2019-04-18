@@ -93,9 +93,8 @@ $(document).ready(function() {
       $("#settingsMenu").addClass("hide");
       $("#gameScreen").removeClass("hide");
 
-      var name = $("#username")
-        .val()
-        .trim();
+      var name = $("#username").val().trim();
+
       //Either need to find the user through the array or create a counter
       database.ref("/users").push({
         username: name
@@ -420,6 +419,8 @@ function playButtonClicked() {
 function gameOver() {
   stopTimer();
   startScoreboardMusic();
+  $("#name2").text(username);
+  $("#score2").text(userScore);
   $("#gameScreen").addClass("hide");
   $("#scoreboardScreen").removeClass("hide");
   joke();
@@ -624,44 +625,44 @@ function startScoreboardMusic() {
 //=======================================================================================//
 // Firebase
 //=======================================================================================//
-// //Updates High Scores to firebase
-// // function checkScores() {
-//     // check if there's a high score in the database
-//     var highScore;
-//     var currentScore = $('#score').val();
-//     var currentUser = $('#username').val();
+//Updates High Scores to firebase
+function checkScores() {
+    // check if there's a high score in the database
+    var highScore;
+    var currentScore = $('#score').val();
+    var currentUser = $('#username').val();
 
-//     database.ref('/scores').on('value', function () {
-//         // go through the array of scores, look for one with a username
-//         // {
-//         //   username: "bob",
-//         //   highScore: 14
-//         // }
-//         // if we find one, set highScore to compare later
-//         if (currentUser === snapshot.val()[0].username) {
-//             highScore = snapshot.val()[0].highScore;
-//         } else {
-//             // set the current value to the high score
-//             database.ref('/score').set({
-//                 username: currentUser,
-//                 highScore: currentScore
-//             })
-//             return;
-//         }
-//     })
+    database.ref('/scores').on('value', function () {
+        // go through the array of scores, look for one with a username
+        // {
+        //   username: "bob",
+        //   highScore: 14
+        // }
+        // if we find one, set highScore to compare later
+        if (currentUser === snapshot.val()[0].username) {
+            highScore = snapshot.val()[0].highScore;
+        } else {
+            // set the current value to the high score
+            database.ref('/score').set({
+                username: currentUser,
+                highScore: currentScore
+            })
+            return;
+        }
+    })
 
-//     // if there is, check to see if we need to update it
-//     if (highScore) {
-//         if (currentScore > highScore) {
-//             // update the database with the new high score
-//             database.ref('/score').set({
-//                 userName: currentUser,
-//                 highScore: currentScore
-//             })
-//         }
-//     }
-//     // if not, push a new object to the database
-// }
+    // if there is, check to see if we need to update it
+    if (highScore) {
+        if (currentScore > highScore) {
+            // update the database with the new high score
+            database.ref('/score').set({
+                userName: currentUser,
+                highScore: currentScore
+            })
+        }
+    }
+    // if not, push a new object to the database
+}
 
 // // after the time expires, call checkScores
 // setTimeout(checkScores, time);
