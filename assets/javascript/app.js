@@ -4,7 +4,7 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
-var maxSeconds = 30;
+var maxSeconds = 120;
 var secondsRemaining;
 var highScore = "";
 var intervalTimer;
@@ -717,7 +717,7 @@ function initializaFirebaseAndCheckForHighScores() {
     // In either case, we want to log the values to console and display them on the page.
     console.log(highScoreUser);
     console.log(highScore);
-    $("#rank1").text(highScoreUser);
+    $("#name1").text(highScoreUser);
     $('#highScore').text(highScore)
     $("#score1").text(highScore);
 
