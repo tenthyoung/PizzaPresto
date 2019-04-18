@@ -6,11 +6,8 @@ var userScore = 0;
 var difficulty = "";
 var maxSeconds = 120;
 var secondsRemaining;
-var intervalTimer;
-
-//Firebase
 var highScore = "";
-var highScoreUser = "";
+var intervalTimer;
 
 //Music
 const introMusic = document.getElementById("introMusic");
@@ -66,7 +63,7 @@ var ingredientCount = 0;
 //========================================================//
 // Main Run Through
 //========================================================//
-$(document).ready(function () {
+$(document).ready(function() {
   // //============================//
   // // Initialize Firebase
   // //============================//
@@ -83,7 +80,7 @@ $(document).ready(function () {
   var database = firebase.database();
 
   function startGameButtonClicked() {
-    $(document).on("click", "#startGameButton", function (event) {
+    $(document).on("click", "#startGameButton", function(event) {
       startGameMusic();
       generateRandomPizzaOrder();
       displayPizzaOrder();
@@ -96,17 +93,20 @@ $(document).ready(function () {
       $("#settingsMenu").addClass("hide");
       $("#gameScreen").removeClass("hide");
 
-      username = $("#username").val().trim();
-
+      var name = $("#username")
+        .val()
+        .trim();
       //Either need to find the user through the array or create a counter
       database.ref("/users").push({
-        username: username
+        username: name
       });
 
       //Makes the username for the Game Screen into the User's settings
-      $("#username-display").text(username);
+      $("#username-display").text(name);
 
-      database.ref("/users").on("value", function (snapshot) {
+      database.ref("/users").on(
+        "value",
+        function(snapshot) {
           // Log everything that's coming out of snapshot
           console.log(snapshot.val());
           console.log(snapshot.val().username);
@@ -114,7 +114,7 @@ $(document).ready(function () {
           // Capture user inputs and store them into variables
           $("#name-display").text(snapshot.val().username);
         },
-        function (errorObject) {
+        function(errorObject) {
           console.log("Errors handled: " + errorObject.code);
         }
       );
@@ -126,7 +126,7 @@ $(document).ready(function () {
   //============================//
   $(".fixed-action-btn").floatingActionButton();
   $("select").formSelect(); //For the select difficulty dropdown
-  $(document).ready(function () {
+  $(document).ready(function() {
     $(".tooltipped").tooltip();
   });
   //============================//
@@ -164,7 +164,7 @@ function triviaPull() {
   $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(function (response) {
+  }).then(function(response) {
     questionArray = response.results;
     renderQuestion();
   });
@@ -285,12 +285,12 @@ function finishedPizzaBounceOutAnimation() {
     userScore += 300;
   }
 
-  setTimeout(function () {
+  setTimeout(function() {
     $("#pizza").addClass("animated bounceOutUp 2s");
     // $('#pizza').addClass('animated bounceOutUp 3s');
   }, 1000);
 
-  setTimeout(function () {
+  setTimeout(function() {
     $("#pizza").removeClass("animated bounceOutUp 3s");
     $("#pizza").attr("src", "./assets/images/blankPizza.png");
     ingredientCount = 0;
@@ -320,14 +320,14 @@ function joke() {
   $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(function (response) {
+  }).then(function(response) {
     console.log(response);
     console.log(response.setup);
     $("#scoreboardDialogue").text(response.setup);
-    setTimeout(function () {
+    setTimeout(function() {
       $("#scoreboardDialogue").text(response.punchline);
     }, 5000);
-    setTimeout(function () {
+    setTimeout(function() {
       $("#scoreboardDialogue").text("Let's play again?");
       $("#scoreboardChef").attr("src", "./assets/images/chef_neutral.png");
     }, 10000);
@@ -340,7 +340,7 @@ function joke() {
 function chefDisapproval() {
   $("#dialogue").text(
     chefDisapprovalDialogueOptions[
-    Math.floor(Math.random() * chefDisapprovalDialogueOptions.length)
+      Math.floor(Math.random() * chefDisapprovalDialogueOptions.length)
     ]
   );
   $("#chef").attr("src", "./assets/images/chefwrong1.png");
@@ -411,7 +411,7 @@ function displayPizzaOrder() {
 
 //Adds an event listener to the play button, which brings us to the next screen
 function playButtonClicked() {
-  $(document).on("click", "#playButton", function () {
+  $(document).on("click", "#playButton", function() {
     $("#menuScreen").addClass("hide");
     $("#settingsMenu").removeClass("hide");
   });
@@ -422,8 +422,6 @@ function gameOver() {
   startScoreboardMusic();
   $("#gameScreen").addClass("hide");
   $("#scoreboardScreen").removeClass("hide");
-  $("#name2").text(username);
-  $("#score2").text(userScore);
   joke();
 }
 
@@ -436,28 +434,29 @@ function addScoreboardButtonListeners() {
 }
 
 function addMuteUnmuteButtonListeners() {
-  $(document).on("click", "#muteButton", function () {
-    console.log(currentSongForMutePurposes);
-    currentSongForMutePurposes.muted = true;
-    $("#muteButton").addClass("hide");
-    $("#unmuteButton").removeClass("hide");
-  });
-
-  $(document).on("click", "#unmuteButton", function () {
-    currentSongForMutePurposes.muted = false;
-    $("#unmuteButton").addClass("hide");
-    $("#muteButton").removeClass("hide");
-  });
+    $(document).on('click', '#muteButton', function () {
+        console.log(currentSongForMutePurposes);
+        currentSongForMutePurposes.muted = true;
+        $('#muteButton').addClass('hide');
+        $('#unmuteButton').removeClass('hide');
+    });
+    
+    $(document).on('click', '#unmuteButton', function () {
+        currentSongForMutePurposes.muted = false;
+        $('#unmuteButton').addClass('hide');
+        $('#muteButton').removeClass('hide');
+    });
 }
 
 function addListenerToTheBottomRightFloatingRestartButton() {
-  $(document).on("click", "#replayButtonFAB", function () {
-    location.reload();
-  });
+    $(document).on('click', '#replayButtonFAB', function () {
+        location.reload();
+    });
 }
 
+
 function addAnswerButtonListeners() {
-  $(document).on("click", ".answer-button", function () {
+  $(document).on("click", ".answer-button", function() {
     console.log("hi");
     if ($(this).text() === correctAnswer) {
       if (currentPizzaOrder === "pepperoni") {
@@ -514,7 +513,7 @@ function addAnswerButtonListeners() {
 }
 
 function replayChangeToSettingScreen() {
-  $(document).on("click", "#replayButton", function () {
+  $(document).on("click", "#replayButton", function() {
     startIntroMusic();
     $("#scoreboardScreen").addClass("hide");
     $("#settingsMenu").removeClass("hide");
@@ -568,14 +567,14 @@ function updateTimerDisplay() {
 function timer() {
   var time = 120;
 
-  timerTickID = setInterval(function () {
+  timerTickID = setInterval(function() {
     time--;
     timeConverter(time);
   }, 1000);
 
   triviaPull();
 
-  setTimeout(function () {
+  setTimeout(function() {
     $("#gameScreen").addClass("hide");
     $("#scoreboardScreen").removeClass("hide");
     // $('.modal').modal();
@@ -626,42 +625,43 @@ function startScoreboardMusic() {
 // Firebase
 //=======================================================================================//
 // //Updates High Scores to firebase
-function checkScores() {
-  // check if there's a high score in the database
-  var currentScore = $("#score").val();
-  var currentUser = $("#username").val();
+// // function checkScores() {
+//     // check if there's a high score in the database
+//     var highScore;
+//     var currentScore = $('#score').val();
+//     var currentUser = $('#username').val();
 
-  database.ref("/scores").on("value", function () {
-    // go through the array of scores, look for one with a username
-    // {
-    //   username: "bob",
-    //   highScore: 14
-    // }
-    // if we find one, set highScore to compare later
-    if (currentUser === snapshot.val()[0].username) {
-      highScore = snapshot.val()[0].highScore;
-    } else {
-      // set the current value to the high score
-      database.ref("/score").set({
-        username: currentUser,
-        highScore: currentScore
-      });
-      return;
-    }
-  });
+//     database.ref('/scores').on('value', function () {
+//         // go through the array of scores, look for one with a username
+//         // {
+//         //   username: "bob",
+//         //   highScore: 14
+//         // }
+//         // if we find one, set highScore to compare later
+//         if (currentUser === snapshot.val()[0].username) {
+//             highScore = snapshot.val()[0].highScore;
+//         } else {
+//             // set the current value to the high score
+//             database.ref('/score').set({
+//                 username: currentUser,
+//                 highScore: currentScore
+//             })
+//             return;
+//         }
+//     })
 
-  // if there is, check to see if we need to update it
-  if (highScore) {
-    if (currentScore > highScore) {
-      // update the database with the new high score
-      database.ref("/score").set({
-        username: currentUser,
-        highScore: currentScore
-      });
-    }
-  }
-  // if not, push a new object to the database
-}
+//     // if there is, check to see if we need to update it
+//     if (highScore) {
+//         if (currentScore > highScore) {
+//             // update the database with the new high score
+//             database.ref('/score').set({
+//                 userName: currentUser,
+//                 highScore: currentScore
+//             })
+//         }
+//     }
+//     // if not, push a new object to the database
+// }
 
 // // after the time expires, call checkScores
 // setTimeout(checkScores, time);
@@ -675,24 +675,3 @@ function checkScores() {
 // if there isn't, then set the current score as the high score
 // if the username was found, check to see if the current score is larger than the high score
 // if the current score is greater than the high score, update the db with the new high score
-
-function firebase() {
-  const database = firebase.firestore();
-
-  database.ref().on("value", function (snapshot) {
-    if (snapshot.child("highScoreUser").exists() && snapshot.child("highScore").exists()) {
-      highScoreUser = snapshot.val().highScoreUser;
-      highScore = parseInt(snapshot.val().highScore);
-    }
-
-    console.log(highScoreUser);
-    console.log(highScore);
-    $("#highest-bidder").text(highScoreUser);
-    $("#highScore").text(highScore);
-
-  },
-    function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    }
-  );
-}
