@@ -12,9 +12,9 @@ var intervalTimer;
 var database;
 
 //Music
-const introMusic = document.getElementById("introMusic");
-const gameMusic = document.getElementById("gameMusic");
-const scoreboardMusic = document.getElementById("scoreboardMusic");
+var introMusic = document.getElementById("introMusic");
+var gameMusic = document.getElementById("gameMusic");
+var scoreboardMusic = document.getElementById("scoreboardMusic");
 var currentSong = "intro";
 var currentSongForMutePurposes = introMusic;
 
