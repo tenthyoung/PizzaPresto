@@ -7,8 +7,7 @@
     <title>Pizza Presto Baby</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Firebase CDN -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+
     <!-- Materialize -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- <link rel="icon" type="image/x-icon" href="img/favicon.ico"> -->
@@ -126,7 +125,7 @@
                 </h5>
                 <div id="pizzaOrderRow">
                     <div id="pizzaOrderContainer">
-                        <img src="./assets/images/pizzas/pepperonipizza.png" alt="Pepperoni pizza" id="pizzaOrder">
+                        <img src="./assets/images/pizzas/pepperonipizza.png" alt="pizza order" id="pizzaOrder">
                     </div>
                 </div>
             </div>
@@ -176,12 +175,17 @@
                     </thead>
                     <tbody>
                         <tr id="scoreRow1" class="scoreRow">
-                            <td id="rank1"> <i class="material-icons left valign-wrapper">star</i><b>High Score</b></td>
+                            <td id="rank1">
+                                <i class="material-icons left valign-wrapper">star</i>
+                                <b>High Score</b>
+                            </td>
                             <td id="name1">Chris Stead</td>
                             <td id="score1">9310</td>
                         </tr>
                         <tr id="scoreRow2" class="scoreRow">
-                            <td id="rank2" class="left"><b>Your Score</b> </td>
+                            <td id="rank2" class="center">
+                                <b>Your Score</b>
+                            </td>
                             <td id="name2">Kevin Castro</td>
                             <td id="score2">8712</td>
                         </tr>
@@ -240,7 +244,7 @@
     <!--=====================================================================-->
     <iframe allow="autoplay" id="audio" style="display:none"></iframe>
     <audio id="introMusic" autoplay loop>
-        <source id="music" src="./assets/music/Life of Riley.mp3" type="audio/mp3">
+        <source id="music" src="./assets/music/cipher.mp3" type="audio/mp3">
     </audio>
     <audio id="gameMusic" loop>
         <source id="music" src="./assets/music/Casa Bossa Nova.mp3" type="audio/mp3">
@@ -249,9 +253,35 @@
         <source id="music" src="./assets/music/Wallpaper.mp3" type="audio/mp3">
     </audio>
 
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-firestore.js"></script> -->
+    <script>
+        Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
+            authDomain: "pizza-presto-28c03.firebaseapp.com",
+            databaseURL: "https://pizza-presto-28c03.firebaseio.com",
+            projectId: "pizza-presto-28c03",
+            storageBucket: "pizza-presto-28c03.appspot.com",
+            messagingSenderId: "750779277139"
+        };
+        firebase.initializeApp(config);
+        // // Initialize Firestore
+        // var config = {
+        //   apiKey: "AIzaSyDZibX7cWn3aw-tQxywg3fZk9oN_xiH2P0",
+        //   authDomain: "pizza-presto-official.firebaseapp.com",
+        //   databaseURL: "https://pizza-presto-official.firebaseio.com",
+        //   projectId: "pizza-presto-official",
+        //   storageBucket: "pizza-presto-official.appspot.com",
+        //   messagingSenderId: "763582208870"
+        // };
+        // firebase.initializeApp(config);
+    </script>
 
     <script src="./assets/javascript/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"> </script>
     <script src="./assets/javascript/app.js"></script>
 </body>
+
 </html>
