@@ -4,7 +4,7 @@
 var username = "";
 var userScore = 0;
 var difficulty = "";
-var maxSeconds = 120;
+var maxSeconds = 30;
 var secondsRemaining;
 var highScore = "";
 var intervalTimer;
