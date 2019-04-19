@@ -11,6 +11,10 @@ var intervalTimer;
 var timeWhenLastPizzaWasComplete = 120;
 var database;
 
+//firebase
+var highScore = 0;
+var highScoreUser = "No One";
+
 //Music
 var introMusic = document.getElementById("introMusic");
 var gameMusic = document.getElementById("gameMusic");
@@ -67,20 +71,6 @@ var ingredientCount = 0;
 //========================================================//
 $(document).ready(function () {
   initializaFirebaseAndCheckForHighScores();
-  // //============================//
-  // // Initialize Firebase
-  // //============================//
-  // var config = {
-  //   apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
-  //   authDomain: "pizza-presto-28c03.firebaseapp.com",
-  //   databaseURL: "https://pizza-presto-28c03.firebaseio.com",
-  //   projectId: "pizza-presto-28c03",
-  //   storageBucket: "pizza-presto-28c03.appspot.com",
-  //   messagingSenderId: "750779277139"
-  // };
-  // firebase.initializeApp(config);
-
-  // var database = firebase.database();
 
   function startGameButtonClicked() {
     $(document).on("click", "#startGameButton", function (event) {
@@ -99,26 +89,8 @@ $(document).ready(function () {
       var name = $("#username").val().trim();
       username = name;
 
-      //Either need to find the user through the array or create a counter
-      // database.ref("/users").push({
-      //   username: name
-      // });
-
-      //Makes the username for the Game Screen into the User's settings
       $("#username-display").text(name);
 
-      // database.ref("/users").on("value", function (snapshot) {
-      //   // Log everything that's coming out of snapshot
-      //   console.log(snapshot.val());
-      //   console.log(snapshot.val().username);
-
-      //   // Capture user inputs and store them into variables
-      //   $("#name-display").text(snapshot.val().username);
-      // },
-      //   function (errorObject) {
-      //     console.log("Errors handled: " + errorObject.code);
-      //   }
-      // );
     });
   }
 
@@ -140,19 +112,12 @@ $(document).ready(function () {
   addMuteUnmuteButtonListeners();
   addListenerToTheBottomRightFloatingRestartButton();
 
-  // //============================//
-  // // Display Pizza
-  // //============================//
-  // generateRandomPizzaOrder();
-  // displayPizzaOrder();
+
 });
 
 //========================================================//
 // APIs
 //========================================================//
-//On the scoreboard page, the chef will say a random pizza joke
-//on the bottom
-
 function triviaPull() {
   difficulty = $("#difficulty")
     .val()
@@ -280,12 +245,12 @@ function nextQuestion() {
 function finishedPizzaBounceOutAnimation() {
   let timeItTookToCompletePizza = timeWhenLastPizzaWasComplete - secondsRemaining;
   let bonus = 1;
-  if ( currentPizzaOrder != 'pepperoni' ) {
+  if (currentPizzaOrder != 'pepperoni') {
     if (timeItTookToCompletePizza < 15) {
       bonus = 1.55;
     } else if (timeItTookToCompletePizza < 30) {
       bonus = 1.25;
-    } 
+    }
   }
   timeWhenLastPizzaWasComplete = secondsRemaining;
   if (difficulty === "easy") {
@@ -355,15 +320,6 @@ function chefDisapproval() {
     ]
   );
   $("#chef").attr("src", "./assets/images/chefwrong1.png");
-  // console.log('1')
-  // setTimeout(function() {
-  //     $('#chef').attr('src', './assets/images/chefwrong2.png')
-  //     console.log('2')
-  // },2000);
-  // setTimeout(function() {
-  //     $('#chef').attr('src', './assets/images/chefwrong1.png')
-  //     console.log('3')
-  // },2000);
 }
 
 function chefApproval() {
@@ -501,7 +457,7 @@ function addAnswerButtonListeners() {
         }
       } else {
         ingredientCount++;
-        $("#pizza").attr( "src", "./assets/images/pizzas/seafoodpizza" + ingredientCount + ".png"
+        $("#pizza").attr("src", "./assets/images/pizzas/seafoodpizza" + ingredientCount + ".png"
         );
         if (ingredientCount == 5) {
           finishedPizzaBounceOutAnimation();
@@ -628,117 +584,44 @@ function startScoreboardMusic() {
 //=======================================================================================//
 // Firebase
 //=======================================================================================//
-//Updates High Scores to firebase
-function checkScores() {
-  // check if there's a high score in the database
-  var highScore;
-  var currentScore = $('#score').val();
-  var currentUser = $('#username').val();
-
-  database.ref('/scores').on('value', function () {
-    // go through the array of scores, look for one with a username
-    // {
-    //   username: "bob",
-    //   highScore: 14
-    // }
-    // if we find one, set highScore to compare later
-    if (currentUser === snapshot.val()[0].username) {
-      highScore = snapshot.val()[0].highScore;
-    } else {
-      // set the current value to the high score
-      database.ref('/score').set({
-        username: currentUser,
-        highScore: currentScore
-      })
-      return;
-    }
-  })
-
-  // if there is, check to see if we need to update it
-  if (highScore) {
-    if (currentScore > highScore) {
-      // update the database with the new high score
-      database.ref('/score').set({
-        userName: currentUser,
-        highScore: currentScore
-      })
-    }
-  }
-  // if not, push a new object to the database
-}
-
-// // after the time expires, call checkScores
-// setTimeout(checkScores, time);
-
-// pseudocode
-
-// function def
-// set up variables
-// access db and look for username
-// if there is a username, get the high score
-// if there isn't, then set the current score as the high score
-// if the username was found, check to see if the current score is larger than the high score
-// if the current score is greater than the high score, update the db with the new high score
-
 function initializaFirebaseAndCheckForHighScores() {
-  // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyCwUmc_twZWmStRkiWZ8zuSjc2dH_ccY1s",
-    authDomain: "coderbay-c1c1a.firebaseapp.com",
-    databaseURL: "https://coderbay-c1c1a.firebaseio.com",
-    projectId: "coderbay-c1c1a",
-    storageBucket: "coderbay-c1c1a.appspot.com",
-    messagingSenderId: "33666931224"
+    apiKey: "AIzaSyDd-uc53MHvSpaahIvBuYI2oAG22eZLkuw",
+    authDomain: "pizza-presto-28c03.firebaseapp.com",
+    databaseURL: "https://pizza-presto-28c03.firebaseio.com",
+    projectId: "pizza-presto-28c03",
+    storageBucket: "pizza-presto-28c03.appspot.com",
+    messagingSenderId: "750779277139"
   };
   firebase.initializeApp(config);
 
-  // Create a variable to reference the database
   database = firebase.database();
 
-  // Initial Values
-  var highScore = 0;
-  var highScoreUser = "No one";
-
-  // --------------------------------------------------------------
-
-  // At the initial load and subsequent value changes, get a snapshot of the stored data.
-  // This function allows you to update your page in real-time when the firebase database changes.
   database.ref().on("value", function (snapshot) {
-
-    // If Firebase has a highScore and highScoreUser stored, update our client-side variables
     if (snapshot.child("highScoreUser").exists() && snapshot.child("highScore").exists()) {
-      // Set the variables for highScoreUser/highScore equal to the stored values.
       highScoreUser = snapshot.val().highScoreUser;
       highScore = parseInt(snapshot.val().highScore);
     }
 
-    // If Firebase does not have highScore and highScoreUser values stored, they remain the same as the
-    // values we set when we initialized the variables.
-    // In either case, we want to log the values to console and display them on the page.
-    console.log(highScoreUser);
-    console.log(highScore);
+    console.log("High score user: " + highScoreUser);
+    console.log("High Score: " + highScore);
     $("#name1").text(highScoreUser);
     $('#highScore').text(highScore)
     $("#score1").text(highScore);
 
-    // If any errors are experienced, log them to console.
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
-
-
 }
 
 function checkIfUserBeatTheHighScore() {
+  console.log('The High Score before Game Over was: '+ highScore);
   if (userScore > highScore) {
-    // Save the new price in Firebase. This will cause our "value" callback above to fire and update
-    // the UI.
     database.ref().set({
       highScoreUser: username,
       highScore: userScore
     });
 
-    // Log the new High Price
     console.log("New High Score!");
     console.log(username);
     console.log(userScore);
