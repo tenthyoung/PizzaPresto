@@ -8,7 +8,7 @@ var maxSeconds = 120;
 var secondsRemaining;
 var highScore = "";
 var intervalTimer;
-
+var timeWhenLastPizzaWasComplete = 120;
 var database;
 
 //Music
@@ -278,12 +278,22 @@ function nextQuestion() {
 }
 
 function finishedPizzaBounceOutAnimation() {
+  let timeItTookToCompletePizza = timeWhenLastPizzaWasComplete - secondsRemaining;
+  let bonus = 1;
+  if ( currentPizzaOrder != 'pepperoni' ) {
+    if (timeItTookToCompletePizza < 15) {
+      bonus = 1.55;
+    } else if (timeItTookToCompletePizza < 30) {
+      bonus = 1.25;
+    } 
+  }
+  timeWhenLastPizzaWasComplete = secondsRemaining;
   if (difficulty === "easy") {
-    userScore += 100;
+    userScore += 100 * bonus;
   } else if (difficulty === "medium") {
-    userScore += 200;
+    userScore += 200 * bonus;
   } else {
-    userScore += 300;
+    userScore += 300 * bonus;
   }
 
   setTimeout(function () {
@@ -465,43 +475,33 @@ function addAnswerButtonListeners() {
     if ($(this).text() === correctAnswer) {
       if (currentPizzaOrder === "pepperoni") {
         ingredientCount++;
-        $("#pizza").attr(
-          "src",
-          "./assets/images/pizzas/pizzaOrders/pizzaOrder1.png"
+        $("#pizza").attr("src", "./assets/images/pizzas/pizzaOrders/pizzaOrder1.png"
         );
         finishedPizzaBounceOutAnimation();
       } else if (currentPizzaOrder === "margherita") {
         ingredientCount++;
-        $("#pizza").attr(
-          "src",
-          "./assets/images/pizzas/margheritapizza" + ingredientCount + ".png"
+        $("#pizza").attr("src", "./assets/images/pizzas/margheritapizza" + ingredientCount + ".png"
         );
         if (ingredientCount == 2) {
           finishedPizzaBounceOutAnimation();
         }
       } else if (currentPizzaOrder === "hawaiian") {
         ingredientCount++;
-        $("#pizza").attr(
-          "src",
-          "./assets/images/pizzas/hawaiianpizza" + ingredientCount + ".png"
+        $("#pizza").attr("src", "./assets/images/pizzas/hawaiianpizza" + ingredientCount + ".png"
         );
         if (ingredientCount == 3) {
           finishedPizzaBounceOutAnimation();
         }
       } else if (currentPizzaOrder === "aifunghi") {
         ingredientCount++;
-        $("#pizza").attr(
-          "src",
-          "./assets/images/pizzas/aifunghi" + ingredientCount + ".png"
+        $("#pizza").attr("src", "./assets/images/pizzas/aifunghi" + ingredientCount + ".png"
         );
         if (ingredientCount == 4) {
           finishedPizzaBounceOutAnimation();
         }
       } else {
         ingredientCount++;
-        $("#pizza").attr(
-          "src",
-          "./assets/images/pizzas/seafoodpizza" + ingredientCount + ".png"
+        $("#pizza").attr( "src", "./assets/images/pizzas/seafoodpizza" + ingredientCount + ".png"
         );
         if (ingredientCount == 5) {
           finishedPizzaBounceOutAnimation();
