@@ -268,7 +268,7 @@ function finishedPizzaBounceOutAnimation() {
 
   setTimeout(function () {
     $("#pizza").removeClass("animated bounceOutUp 3s");
-    $("#pizza").attr("src", "./assets/images/pizzas/blankPizza.png");
+    $("#pizza").attr("src", "./assets/images/blankPizza.png");
     ingredientCount = 0;
 
     generateRandomPizzaOrder();
