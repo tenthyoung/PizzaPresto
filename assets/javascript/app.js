@@ -268,7 +268,7 @@ function finishedPizzaBounceOutAnimation() {
 
   setTimeout(function () {
     $("#pizza").removeClass("animated bounceOutUp 3s");
-    $("#pizza").attr("src", "./assets/images/blankPizza.png");
+    $("#pizza").attr("src", "./assets/images/blankpizza.png");
     ingredientCount = 0;
 
     generateRandomPizzaOrder();
@@ -480,7 +480,7 @@ function replayChangeToSettingScreen() {
     $("#score").text("0");
     $("#scoreboardChef").attr("src", "./assets/images/happyChefwPizza.png");
     userScore = 0;
-    $("#pizza").attr("src", "./assets/images/blankPizza.png");
+    $("#pizza").attr("src", "./assets/images/blankpizza.png");
     ingredientCount = 0;
 
     generateRandomPizzaOrder();
