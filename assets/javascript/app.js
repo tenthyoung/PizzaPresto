@@ -267,7 +267,7 @@ function finishedPizzaBounceOutAnimation() {
   }, 1000);
 
   setTimeout(function () {
-    $("#pizza").removeClass("animated bounceOutUp 3s");
+    $("#pizza").removeClass("animated bounceOutUp 2s");
     $("#pizza").attr("src", "./assets/images/blankpizza.png");
     ingredientCount = 0;
 
