@@ -1,4 +1,4 @@
 # Pizza Presto v1.0
-Pizza Presto is an interactive trivia game where you help Chef Mario make pizzas at his 5-star Pizza Restaurant.  Change between multiple difficulties. 
+This fun group project is a time-based trivia game, where you make pizza for Chef Linguini to earn points and satisfy customers. In this project, we utilized HTML, Materialize CSS, CSS, JavaScript, jQuery, Firebase, a Trivia API, Animate CSS, and a Joke API to make this fun-loving web game.
 
 https://tenthyoung.github.io/PizzaPresto/
